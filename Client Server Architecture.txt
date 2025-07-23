@@ -1,0 +1,28 @@
+Client Server Architecture
+
+it basically a technique where workload is divided between client and server. Clients refer to devices or programs which request resources from the server and server refers to a remote device that provides data, resources and services to the clients.
+
+generally, client request data or service from the server and server delivers as long as it has data or service available in its system
+
+How browser interacts with the server
+user enters the url
+browser do for DNS lookup
+the browser get IP address from DNS resolver
+the browser then sends http/https request to the server and fetch the data Http is the protocol used for communication between client and server
+then server sends website files required to render webpage to the user
+browser renders the webpage to the user
+
+Static sites vs Dynamic Sites
+in static sites the webpages returned by server are prebuilt using html css and javascript. Static does not mean that it will not respond to user actions, These Websites are called static because these cannot be manipulated on the server or interact with databases
+
+in dynamic sites the webpages are processed during runtime they are not prebuilt webpages but they are built during runtime according to the request made by user.
+
+RestAPI
+RestAPI stands for Representational State Transfer. REST is an architectural style that define set of rules to follow when creating web services. Webservices that follow REST architecture are known as RESTful webservices. RESTAPI is nothing but a set of rules that follow to communicate between two programs or software over a network. 
+RESTAPI uses HTTP methods for communication like GET POST PUT DELETE
+client generally send a request using url with http methods and server responds with a response generally in JSON format
+It is stateless means the server not store any information regrading session state of client(the server will not store any previous sessions of the client if any previous session information is required the client should send all the data in current request to the server) the request made by client is new and independent and includes all the information to fulfill the request.
+
+
+JAVASCRIPT
+javascript is a synchronous single threaded language.

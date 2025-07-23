@@ -1,0 +1,32 @@
+HTML - Hyper text markup language
+       used by mostof the websites to provide structure and content
+       Tags in HTML 
+       <!DOCTYPE html> - tells browser it is a HTML5 document
+       <html></html
+       <head></head>
+       .....
+       <a></a> - used for links in the page
+       relative path vs absolute path
+       .....
+       <img>
+ 
+
+CSS - Cascading Style Sheets
+      used to add styles to webpages 
+      We have selectors
+           universal Selector
+           type selector
+           class selector - uses dot operator (.classname{})
+           ID selector - uses #operator (#idname{})
+      Properties like color, background color, font size, font family, margin, padding, 
+      box model - padding border margin
+      classes and identifiers in css
+      divs and spans - more useful when we use classes in out html
+      pseudo classes and pseudo  elements in css to style - pseudo classes are used to style specific state of an element while pseudo         elements are used to style specific part of an element.
+      grid and flex-box in css - justify-content, align-items, align-content, flex-direction,
+      inline style has more priority > internal css > external css
+      
+
+
+
+

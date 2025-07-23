@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    color: #1b281b;
+    font-size: 1.25rem;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+    font-size: 7.5rem;
+    line-height: 1.1;
+}
+
+h2 {
+    color: #cb731c;
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+a {
+    color: #2b930b;
+}
+
+a:hover, a:focus-visible {
+    color: #5f9b9f ;
+}
+
+ul,ol {
+    color: black;
+}
+
+li {
+    margin-block: 5px;
+}
+
+section {
+    margin-block: 100px;
+}
+
+.primary-navigation ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.primary-navigation a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.primary-navigation a:hover, .primary-navigation a:focus-visible {
+    color: #5f9b9f;
+}
+
+.teal-bg {
+    color: #ffffff;
+    padding: 20px;
+    border: #0b4a5a solid 10px;
+    background-color: #087a98;
+}
+
+.teal-text {
+     color: #087a98;
+}
+
+.climber-bg {
+    color: #ffffff;
+    background-image: url("../images/simple-steps.jpg");
+    padding: 120px;
+    border: #0b4a5a solid 10px;
+    background-repeat: no-repeat;
+    background-position: bottom-left;
+    background-size: cover;
+}
+
+.wrapper {
+    max-inline-size: 1000px;
+    margin-inline: auto;
+}
+
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-block-end: 60px;
+}
+
+img {
+  max-inline-size: 100%;
+  display: block;
+}
+
+footer{
+    text-align: center;
+}

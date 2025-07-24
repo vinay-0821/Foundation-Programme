@@ -1,0 +1,14 @@
+SQL - Structured Query Language
+DBMS vs RDBMS - DBMS is a software designed to manage, organize and retrieve data efficiently.
+RDBMS stores data in tables and maintain relations between them
+
+SQL commands are mainly categeriosed into 
+DDL - Data Definition Language - Create, Drop, Alter, Truncate
+DQL - Data Query Language - Select
+DML - Data Manipulation Language - Insert, Update, Delete, 
+DCL - Data Control Language - Grant, Revoke
+
+Delete vs Drop vs Truncate - 
+using Delete we can delete specific rows  using where clause - it can be rollback.
+using Drop entrie rows in the table and its structure would be gone - cant rollback.
+using Truncate all rows will be  deleted but its structure remain in the database - cant rollback

@@ -24,5 +24,20 @@ client generally send a request using url with http methods and server responds 
 It is stateless means the server not store any information regrading session state of client(the server will not store any previous sessions of the client if any previous session information is required the client should send all the data in current request to the server) the request made by client is new and independent and includes all the information to fulfill the request.
 
 
-JAVASCRIPT
+JAVASCRIPT - a scripting language
 javascript is a synchronous single threaded language.
+we can access html element in javascript by using their ids (document.getElementById())
+JavaScript Hoisting - refers to a mechanism where functions and variables declarations are moved to the top of the current scope.
+JavaScript strict mode - Strict mode is a way to make JavaScript run in a safer and more controlled way by catching common coding mistakes and preventing unsafe actions.
+JavaScript Callbacks - A callback is a function passing as an argument to another function.
+Asynchronous functions - 
+JavaScript promises - are the objects representing eventual completion or failure of an asynchronous operation and its resulting value.
+A promise has 3 states - pending, resolved and reject
+It uses then, catch, finally methods to handle outcomes of the asynchronous function
+Async and await in javaScript - handels asynchronous functions different from promises. 
+are used to simplify handling asynchronous operations using promises. These enables that asynchronous code looks like synchronous
+Async keyword before a function makes us to write a promise based code as if it was synchronous. Async always returns a promise. If a value is returned that is not a promise, JavaScript automatically wraps it in a resolved promise.
+Await is used to wait for a promise to resolve. it can only be used inside an async function.
+JavaScript HTML DOM - Document Object Model
+When a webpage is loaded the browser creates a Document Object Model of the page. HTML DOM is represented as a tree of objects.
+

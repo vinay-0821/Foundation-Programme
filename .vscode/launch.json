@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/Foundation Programme/sample",
-      "program": "d:/Foundation Programme/sample/build/Debug/outDebug",
+      "cwd": "d:/Foundation Programme/react/sample",
+      "program": "d:/Foundation Programme/react/sample/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

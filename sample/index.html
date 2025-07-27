@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        <section id="initial">
+        <section class="wrapper" id="initial">
             <header class="siteheader">
                 <h1>Vinay...</h1>
                 <nav class="navigationbar" aria-label="Primary Navigation">
@@ -18,141 +18,189 @@
                         <li><a href="#about">ABOUT</a></li>
                         <li><a href="#experience">Experience</a></li>
                         <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">CONTACT</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </nav>
             </header>
         </section>
 
-        <section>
-            <div class="myname">
-                <h1>I'm Chinthakommadinne Vinay Kumar</h1>
-                <p>I'm passionate and hardworking student thriving to learn new things. I want to become a software developer in this fast moving world and contibute to the software world.</p>
-            </div>
-            <div class="resume">
-                <button> Resume</button>
-                <p>download my resume</p>
+        <section class="wrapper">
+            <div class="introduction">
+                <img src="linkedin photo.jpeg" alt="Vinay's profile picture">
+                <div class="introduction-text">
+                    <div class="myname">
+                        <h1>I'm Chinthakommadinne Vinay Kumar</h1>
+                        <p>I'm passionate and hardworking student thriving to learn new things. I want to become a software developer in this fast moving world and contibute to the software world.</p>
+                    </div>
+                    <div class="resume">
+                        <button id="resume-button"> Resume</button>
+                        <p>download my resume</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="about">
+        <section class="wrapper" id="about">
             <div class="aboutme">
-                <div>
-                    <h2>Hii, My name is Vinay</h2>
-                    <p>I'm intrested in software development roles.</p>
-                </div>
+                <div class="aboutme-intro">
+                    <div class="aboutme-text">
+                        <h2>Hii, My name is Vinay</h2>
+                        <p>I'm intrested in software development roles.</p>
+                    </div>
 
-                <div>
-                    <h3>Skills</h3>
-                    <p><span>Languages:</span>C, C++, Java, Python, SQL</p>
-                    <p><span>Technologies:</span>HTMl, CSS, Bootstrap, JavaScript, React.js, NumPy, Pandas, AWS amplify, Git</p>
-                    <p><span>Courses:</span>DSA, DBMS, Machine Learning, Artificial Intelligence, OOPS, Operating Systems, Computer Networks</p>
-                </div>
+                    <div class="aboutme-skills">
+                        <h3><strong>Skills</strong></h3>
 
-                <div>
-                    <h3>Education</h3>
-                    <div>
-                        <div>
-                            <p><span>National Institute of Technology Calicut</span></p>
-                            <p>DEC.2021 - May.2025</p>
+                        <div class="skill-group">
+                            <p class="skill-label">Languages:</p>
+                            <p class="skill-items">C, C++, Java, Python, SQL</p>
                         </div>
-                        <div>
-                            <p>BTech in computer Science and engineering</p>
-                            <p>CGPA: 8.31/10</p>
+
+                        <div class="skill-group">
+                            <p class="skill-label">Technologies:</p>
+                            <p class="skill-items">HTML, CSS, Bootstrap, JavaScript, React.js, NumPy, Pandas, AWS Amplify, Git</p>
+                        </div>
+
+                        <div class="skill-group">
+                            <p class="skill-label">Courses:</p>
+                            <p class="skill-items">DSA, DBMS, Machine Learning, Artificial Intelligence, OOPS, Operating Systems, Computer Networks</p>
                         </div>
                     </div>
-                    <div>
-                        <div>
-                            <p><span>Sri Chaitanya co-ed junior college</span></p>
-                            <p>June.2019 - May.2021</p>
+                </div>
+                
+                <div class="aboutme-intro">
+                    <h2>Education</h2>
+                    <div class="schooling">
+                        <div class="school">
+                            <p class="institute-name"><strong>National Institute of Technology Calicut</strong></p>
+                            <p class="degree">BTech in computer Science and engineering</p>
+                            <div class="name">
+                                <span><em>Dec.2021 - May.2025</em></span>
+                                <span><em>CGPA: 8.31/10</em></span>
+                            </div>
                         </div>
-                        <div>
-                            <p>Board of intermediate education A.P</p>
-                            <p>percentage: 96.1%</p>
+                        <div class="school">
+                            <p class="institute-name"><strong>Sri Chaitanya co-ed junior college</strong></p>
+                            <p class="degree">Board of intermediate education A.P</p>                            <div class="name">
+                                <span><em>June.2019 - May.2021</em></span>
+                                <span><em>percentage: 96.1%</em></span>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div>
-                            <p><span>Sri Chaitanya High School</span></p>
-                            <p>June.2018 - April.2019</p>
-                        </div>
-                        <div>
-                            <p>Board of secondary education A.P</p>
-                            <p>CGPA: 10/10</p>
+                        <div class="school">
+                            <p class="institute-name"><strong>Sri Chaitanya High School</strong></p>
+                            <p class="degree">Board of secondary education A.P</p>
+                            <div class="name">
+                                <span><em>June.2018 - April.2019</em></span>
+                                <span><em>CGPA: 10/10</em></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="experience">
-            <h3>Internship at <a href="www.helloyume.com"></a><span></span>YUME</span></a></h3>
-            <div>
-                <p><span>Software Development Engineer</span></p>
-                <p>May.2024 - July.2024</p>
+        <section class="wrapper" id="experience">
+            <div class="experience">
+                <h2>Experience</h2>
+                <div class="experience-details">
+                    <div class="company">
+                        <h3>Internship at <a href="https://www.helloyume.com/">YUME</a></h3>
+                        <div class="experience-role">
+                            <span><strong>Software Development Engineer</strong></span>
+                            <span>May.2024 - July.2024</span>
+                        </div>
+                    </div>
+                    <ul class="experience-list">
+                        <li>I developed a comprehensive web application using the React framework. The application was designed to provide a seamless user experience with a dynamic and responsive front-end.</li>
+                        <li>Integrated AWS Amplify to handle user authentication and authorization and implemented secure sign-up, login, and logout functionalities. We used AWS Cognito to manage user pools and federated identities, providing both authentication and authorization services.</li>
+                        <li>Deployed the web application on AWS using Amplify's hosting service. Configured continuous deployment pipelines to automatically build and deploy updates whenever changes are pushed to the repository.</li>
+                    </ul>
+                </div>
             </div>
-            <ul>
-                <li>I developed a comprehensive web application using the React framework. The application was designed to provide a seamless user experience with a dynamic and responsive front-end.</li>
-                <li>Integrated AWS Amplify to handle user authentication and authorization and implemented secure sign-up, login, and logout functionalities. We used AWS Cognito to manage user pools and federated identities, providing both authentication and authorization services.</li>
-                <li>Deployed the web application on AWS using Amplify's hosting service. Configured continuous deployment pipelines to automatically build and deploy updates whenever changes are pushed to the repository.</li>
-            </ul>
         </section>
 
-        <section id="projects">
-            <div>
-                <h3>Conference Website</h3>
-                <ul>
-                    <li> Designed and implemented the reviewer module for a conference management system.</li>
-                    <li>Integrated JWT token-based authorization to secure and authenticate API endpoints.</li>
-                    <li> Developed RESTful APIs to efficiently manage reviewer assignments, review submissions, and feedback collection.</li>
-                    <li> Wrote and executed comprehensive unit tests using JUnit, ensuring robustness and reliability of the application.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Conference Website</h3>
-                <ul>
-                    <li> Designed and implemented the reviewer module for a conference management system.</li>
-                    <li>Integrated JWT token-based authorization to secure and authenticate API endpoints.</li>
-                    <li> Developed RESTful APIs to efficiently manage reviewer assignments, review submissions, and feedback collection.</li>
-                    <li> Wrote and executed comprehensive unit tests using JUnit, ensuring robustness and reliability of the application.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Conference Website</h3>
-                <ul>
-                    <li> Designed and implemented the reviewer module for a conference management system.</li>
-                    <li>Integrated JWT token-based authorization to secure and authenticate API endpoints.</li>
-                    <li> Developed RESTful APIs to efficiently manage reviewer assignments, review submissions, and feedback collection.</li>
-                    <li> Wrote and executed comprehensive unit tests using JUnit, ensuring robustness and reliability of the application.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Conference Website</h3>
-                <ul>
-                    <li> Designed and implemented the reviewer module for a conference management system.</li>
-                    <li>Integrated JWT token-based authorization to secure and authenticate API endpoints.</li>
-                    <li> Developed RESTful APIs to efficiently manage reviewer assignments, review submissions, and feedback collection.</li>
-                    <li> Wrote and executed comprehensive unit tests using JUnit, ensuring robustness and reliability of the application.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Conference Website</h3>
-                <ul>
-                    <li> Designed and implemented the reviewer module for a conference management system.</li>
-                    <li>Integrated JWT token-based authorization to secure and authenticate API endpoints.</li>
-                    <li> Developed RESTful APIs to efficiently manage reviewer assignments, review submissions, and feedback collection.</li>
-                    <li> Wrote and executed comprehensive unit tests using JUnit, ensuring robustness and reliability of the application.</li>
-                </ul>
+        <section class="wrapper" id="projects">
+            <div class="projects">
+                <h2>Projects</h2>
+                <div class="project-details">
+                    <div class="project-name">
+                        <h3>Conference Website</h3>
+                        <ul class="project-list">
+                            <li> Designed and implemented the reviewer module for a conference management system.</li>
+                            <li>Integrated JWT token-based authorization to secure and authenticate API endpoints.</li>
+                            <li> Developed RESTful APIs to efficiently manage reviewer assignments, review submissions, and feedback collection.</li>
+                            <li> Wrote and executed comprehensive unit tests using JUnit, ensuring robustness and reliability of the application.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-details">
+                    <div class="project-name">
+                        <h3>Augmented Reality for Primary Education</h3>
+                        <ul class="project-list">
+                            <li>Designed and developed an AR-based educational application to enhance early literacy by displaying interactive 3D models for English alphabets (A–Z).</li>
+                            <li>Collected and annotated a custom dataset; trained a lightweight YOLOv8m model for alphabet recognition, achieving mAP ≥ 0.85 for multiple classes.</li>
+                            <li>Converted YOLOv8 model to ONNX format and integrated it into Unity using the Sentis package for real-time inference, reducing latency and resource usage.</li>
+                            <li>Incorporated Google MediaPipe for real-time hand tracking and deployed the application to Microsoft HoloLens, enabling immersive, gesture-based learning.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-name">
+                    <h3> Driver Drowsiness detection</h3>
+                    <ul class="project-list">
+                        <li>Developed a real-time driver drowsiness detection system using Dlib and OpenCV.</li>
+                        <li> Implemented facial feature analysis to monitor eye closure, blinking frequency, and head positioning.</li>
+                        <li>Achieved 85.7% accuracy using the Closed Eyes in the Wild (CEW) dataset, ensuring reliable detection under varied conditions.</li>
+                        <li> Generated real-time alerts to prompt drivers, enhancing road safety and reducing fatigue-related accidents.</li>
+                    </ul>
+                </div>
+
+                <div class="project-name">
+                    <h3>Coding Profile Stats Tracker using Python</h3>
+                    <ul class="project-list">
+                        <li> Developed a Discord bot that fetches and displays coding stats (e.g., ratings, problems solved) of registered users from platforms like LeetCode and Codeforces using public APIs.</li>
+                        <li> Integrated public APIs to extract data based on commands sent in the server; used MYSQL to store and retrieve registered user IDs.</li>
+                    </ul>
+                </div>
+
+                <div class="project-name">
+                    <h3> Basic operating system</h3>
+                    <ul class="project-list">
+                        <li>This project focuses on implementing the various OS data structures and kernel routines and modules, including resource management, process management, memory management, file management, device management and pager module.</li>
+                        <li> The XSM (eXperimental String Machine) Simulator is used to simulate the XSM hardware.</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <section id="contact">
-            <div>
-                <p>email:cvinay2108@gmail.com</p>
-                <p>mobile no:6301077838</p>
-                <p>Linkedin</p>
-                <p>github</p>
+            <div class="contact-section">
+                <h2>Contact Me</h2>
+                <div class="contact-info">
+                    <form class="contact-form" action="mailto:cvinay2108@gmail.com" method="POST" enctype="text/plain">
+                        <input type="text" name="name" placeholder="Your Name" required />
+                        <input type="email" name="email" placeholder="Your Email" required />
+                        <textarea name="message" placeholder="Your Message" required></textarea>
+                        <button id="form-submit" type="submit">Send Message</button>
+                    </form>
+
+                    <div class="contact-details">
+                        <p><strong>Email:</strong> <a href="mailto:cvinay2108@gmail.com">cvinay2108@gmail.com</a></p>
+                        <p><strong>Phone:</strong> <a href="tel:+916301077838">6301077838</a></p>
+
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/cvinay2108/" target="_blank" aria-label="LinkedIn" rel="noopener noreferrer">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" />
+                            </a>
+                            <a href="https://github.com/vinay-0821" target="_blank" aria-label="GitHub" rel="noopener noreferrer">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
+        <script src="index.js"></script>
     </body>
 </html>

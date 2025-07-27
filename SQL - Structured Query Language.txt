@@ -1,4 +1,7 @@
-SQL - Structured Query Language
+for refernce - https://techtfq.com/blog/how-to-learn-sql-for-free-roadmap-to-learning-sql
+
+
+SQL - Structured Query Language is a programming language used for relational database
 DBMS vs RDBMS - DBMS is a software designed to manage, organize and retrieve data efficiently.
 RDBMS stores data in tables and maintain relations between them
 
@@ -12,3 +15,95 @@ Delete vs Drop vs Truncate -
 using Delete we can delete specific rows  using where clause - it can be rollback.
 using Drop entrie rows in the table and its structure would be gone - cant rollback.
 using Truncate all rows will be  deleted but its structure remain in the database - cant rollback
+
+SQL execution order
+From, where, group by,  having, select, distinct, orderby, limit
+
+SQL window functions
+in normal aggragate functions - it will return a single row for each group based on the query( if we use group by )  else only one row
+where as in window functions - they do not collapse rows. returns a value for each row
+we have to use over() clause to write window function. 
+
+for aggregate window functions we have to pass column name inside window function as below syntax 
+
+SYNTAX
+
+SELECT column_name1, 
+ window_function(column_name2)
+ OVER([PARTITION BY column_name1] [ORDER BY column_name3]) AS new_column
+FROM table_name;
+
+SELECT Name, Age, Department, Salary, 
+ AVG(Salary) OVER( PARTITION BY Department) AS Avg_Salary
+FROM employee
+
+SELECT Date, Sales,
+       SUM(Sales) OVER(ORDER BY Date) AS Running_Total
+FROM sales_data;
+
+for ranking window functions we dont have to pass column name as it will assign a values for each record based on what we give in over class
+
+SELECT Name, Department, Salary,
+       RANK() OVER(PARTITION BY Department ORDER BY Salary DESC) AS emp_rank
+FROM employee;
+
+SELECT Name, Department, Salary,
+       DENSE_RANK() OVER(PARTITION BY Department ORDER BY Salary DESC) AS emp_dense_rank
+FROM employee;
+
+SELECT Name, Department, Salary,
+       ROW_NUMBER() OVER(PARTITION BY Department ORDER BY Salary DESC) AS emp_row_no
+FROM employee;
+
+the difference between rank and dense rank is - in rank it skips some ranks when there is a tie (like 1,2,2,4) but dense rank continues (like 1,1,2,2,2,3)
+
+LEAD and LAG window functions
+
+LEAD(expr, N, default)                                                        LAG(expr, N, default) 
+          OVER (Window_specification | Window_name)                                    OVER (Window_specification | Window_name)
+
+
+SQL - Common Table Expression(CTE) - WITH clause
+A Common Table Expression (CTE) in SQL is a temporary result set that can be referenced within a execution scope of SELECT, INSERT, UPDATE, or DELETE statement. CTEs are defined using the WITH keyword and allow you to create a named, reusable subquery within your SQL statement. They provide a way to simplify complex queries and make them more readable.
+
+WITH cte_name() AS (
+    SELECT query
+)
+SELECT *
+FROM cte_name;
+
+if you explicitly mention col names after cte_name you have to use those name
+
+persistence data means - Data that is stored permanently (e.g., on disk) and remains even after the program/query ends. Example: Data in a database table.
+
+Views in SQL
+A view is a virtual table. Unlike traditional tables, a view in SQL does not store data on disk; Instead, they dynamically generate data by executing the SQL query defined in the view each time it is accessed.
+
+- view cannot store data but stores structure of the view 
+
+Rules when using create or replace - cannot change structure of the view using create or replace
+- cannot change column name
+- cannot change column name
+- cannot change the order of the columns but can add new columns at the end of all columns
+
+if we want to change structure we can use alter view
+
+if we have a view already, then if we change the structure of the table which was used by the view to reflect these changes we have to use create or replace view. additionally the view will always shows the latest data only structure is not shown without using create or replace
+
+Views created from single table, if we update a view it automatically reflect to original table
+Rules for update view
+- if we want to update the view - it should be created using only 1 table or view.
+                                - query in the view, it cannot have DISTINCT clause
+                                                     it cannot have GROUP BY or ORDER BY
+                                - query should not contain WITH clause
+                                - query should not contain window functions
+
+with check option - if we are updating a view, if we add this with check option then it will be done when where clause conditions satisfies
+
+Materialized views
+These are same as the views but difference between views and materialized views are - In materialized views it stores both SQL query and data returned from the SQL query
+the data in materialised view will not update unless we refresh it
+
+Stored Procedure in SQL
+Procedure is a block of code with a name that can be stored in the database
+A SQL Stored Procedure is a collection of SQL statements bundled together to perform a specific task. These procedures are stored in the database and can be called upon by users, applications, or other procedures.

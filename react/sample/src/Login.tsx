@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import Home from './Home';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from './authSlice';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const signupData = location.state as { email: string; password: string; username: string } | null;
-
-    // console.log('signupData:', signupData );
+    const dispatch = useDispatch();
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -19,16 +18,10 @@ export default function Login() {
         setError('Email and password are required');
         return;
       }
-      else if(signupData && email === signupData.email && password === signupData.password) {
-        console.log('Login successful');
-        setError('');
-        setSuccess(true);
-        navigate('/home', { state: { email, password } });
-      }
       else if(email === "vinay@gmail.com" && password === "1234") {
         console.log('Login successful');
+        dispatch(login({email, password}));
         setError('');
-        setSuccess(true);
         navigate('/home', { state: { email, password } });
       } 
       else {

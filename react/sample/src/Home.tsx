@@ -1,18 +1,22 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { RootState } from './store';
+import { logout } from './authSlice';
 
 export default function Home() {
-    const location = useLocation();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { email, password } = useSelector((state: RootState) => state.auth);
 
-    const { email, password } = location.state as { email: string; password: string } || {};
     
     function HandleLogout() {
         console.log('Logout successful');
+        dispatch(logout());
         navigate('/login');
     }
 
-  return (
+  return ( 
     <div>
       <h1>Home</h1>
       <p>Email: {email}</p>

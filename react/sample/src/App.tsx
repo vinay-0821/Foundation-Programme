@@ -7,6 +7,7 @@ import { Navigate, Route, } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import Home from './Home';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

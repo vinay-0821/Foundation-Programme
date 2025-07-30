@@ -12,20 +12,25 @@ export default function Login() {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       if(email === '' || password === '') {
         setError('Email and password are required');
         return;
       }
-      else if(email === "vinay@gmail.com" && password === "1234") {
-        console.log('Login successful');
-        dispatch(login({email, password}));
-        setError('');
-        navigate('/home', { state: { email, password } });
-      } 
-      else {
-        setError('Invalid email or password');
+      
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        dispatch(login({ email, password }));
+        navigate('/home', { state: { email } });
+      } else {
+        setError(data.message || 'Login failed');
       }
     };
 

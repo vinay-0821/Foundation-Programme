@@ -10,15 +10,25 @@ export default function Signup() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (username === '' || email === '' || password === '') {
       setError('Please fill in all fields');
       return;
     }
-    navigate('/login', {
-      state: { username, email, password, },
+
+    const response = await fetch('http://localhost:5000/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password }),
     });
+
+    const data = await response.json();
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        setError(data.message || 'Signup failed');
+      }
   };
 
   return (

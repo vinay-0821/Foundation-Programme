@@ -16,7 +16,7 @@ const AdminNavbar = () => {
   return (
     <nav className="admin-navbar">
       <div className="nav-logo">Admin</div>
-      <div className={`nav-links ${isOpen ? "open" : ""}`}>
+      <div className={isOpen ? "nav-links open" : "nav-links"}>
         <Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
         <Link to="/admin/sellers" onClick={() => setIsOpen(false)}>Approve Sellers</Link>
         <Link to="/admin/books" onClick={() => setIsOpen(false)}>Books</Link>
@@ -25,7 +25,7 @@ const AdminNavbar = () => {
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
       <div className="nav-toggle" onClick={toggleMenu}>
-        ☰
+        button
       </div>
     </nav>
   );

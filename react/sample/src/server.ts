@@ -1,13 +1,26 @@
 import express from 'express';
+import type { NextFunction } from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import type { RowDataPacket } from 'mysql2/promise';
+import jwt from 'jsonwebtoken';
+// import { Request } from 'express';
+import type { Request, Response } from 'express';
+
+interface JwtPayload {
+  email: string;
+}
+
+interface AuthenticatedRequest extends Request {
+  user?: JwtPayload;
+}
 
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+const SECRET_KEY = '8449B044B6579A4CEBE0A03F8B67482F5946DC8E9DDE3AC9BCA7680C84166089';
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -50,14 +63,33 @@ app.post('/login', (req, res) => {
     const users = results as RowDataPacket[];
 
     if (users.length > 0) {
-      res.status(200).json({ message: 'Login successful' });
+      const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Login successful', token });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   });
-  console.log("Hii");
+  // console.log("Hii");
 });
 
 app.listen(5000, () => {
   console.log('Server running on http://localhost:5000');
+});
+
+function authenticateToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.split(' ')[1];
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, SECRET_KEY, (err: any, user: any) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+app.get('/home', authenticateToken, (req: AuthenticatedRequest, res) => {
+  const user = req.user as { email: string };
+  res.json({ message: `Welcome ${user.email}` });
 });

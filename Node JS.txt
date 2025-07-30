@@ -1,0 +1,4 @@
+Node JS
+
+Nodejs is a javascript runtime environment for executing javascript out side of the browser
+Nodejs is single threaded utilising an event loop to handle multiple task concurrently 

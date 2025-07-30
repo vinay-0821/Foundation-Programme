@@ -30,6 +30,8 @@ we can access html element in javascript by using their ids (document.getElement
 JavaScript Hoisting - refers to a mechanism where functions and variables declarations are moved to the top of the current scope.
 JavaScript strict mode - Strict mode is a way to make JavaScript run in a safer and more controlled way by catching common coding mistakes and preventing unsafe actions.
 JavaScript Callbacks - A callback is a function passing as an argument to another function.
+Callbacks allow one function to call another at a later time.
+A callback function can execute after another function has finished.
 Asynchronous functions - 
 JavaScript promises - are the objects representing eventual completion or failure of an asynchronous operation and its resulting value.
 A promise has 3 states - pending, resolved and reject

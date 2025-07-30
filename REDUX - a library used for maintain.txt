@@ -1,0 +1,1 @@
+REDUX - a library used for maintaining global state management.

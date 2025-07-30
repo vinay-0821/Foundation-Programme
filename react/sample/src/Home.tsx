@@ -7,21 +7,23 @@ import { logout } from './authSlice';
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { email, password } = useSelector((state: RootState) => state.auth);
+    const { email } = useSelector((state: RootState) => state.auth);
+    const fallbackEmail = localStorage.getItem("email");
 
     
-    function HandleLogout() {
-        console.log('Logout successful');
-        dispatch(logout());
-        navigate('/login');
+    function handleLogout() {
+      console.log('Logout successful');
+      dispatch(logout());
+      localStorage.removeItem('token');
+      localStorage.removeItem('email');
+      navigate('/login');
     }
 
   return ( 
     <div>
       <h1>Home</h1>
-      <p>Email: {email}</p>
-      <p>Password: {password}</p>
-      <button onClick={HandleLogout}>Logout</button>
+      <p>Email: {email || fallbackEmail}</p>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   )
 }

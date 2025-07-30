@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import Login from './Login';
@@ -8,8 +8,22 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import Home from './Home';
 import PrivateRoute from './PrivateRoute';
+import { useDispatch } from 'react-redux';
+import { login } from './authSlice';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email"); 
+    if (token && email) {
+      dispatch(login({ token, email }));
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>

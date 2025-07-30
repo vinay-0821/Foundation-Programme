@@ -5,3 +5,5 @@ Libraries - a collection of pre-defined codes that provides specific functionali
 Framework - an architecture that provides a foundation to build applications and some functionalities
 
 React is JavaScript library to build user interfaces
+
+JSX / TSX - allows us to write html code inside javaScript or typescript 

@@ -27,9 +27,12 @@ export default function Login() {
 
       const data = await response.json();
       if (response.ok) {
-        dispatch(login({ email, password }));
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('email', email);
+        dispatch(login({ token: data.token, email }));
         navigate('/home', { state: { email } });
-      } else {
+      }
+      else {
         setError(data.message || 'Login failed');
       }
     };

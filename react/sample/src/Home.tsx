@@ -1,29 +1,52 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { RootState } from './store';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logout } from './authSlice';
 
 export default function Home() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { email } = useSelector((state: RootState) => state.auth);
-    const fallbackEmail = localStorage.getItem("email");
+  const [userData, setUserData] = useState<{ name: string; email: string } | null>(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    
-    function handleLogout() {
-      console.log('Logout successful');
-      dispatch(logout());
-      localStorage.removeItem('token');
-      localStorage.removeItem('email');
-      navigate('/login');
-    }
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (!token) return;
 
-  return ( 
+  fetch('http://localhost:5000/home', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => setUserData(data))
+    .catch(err => console.error('Error fetching user:', err));
+}, []);
+
+
+  function handleLogout() {
+    dispatch(logout());
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
+
+  return (
     <div>
-      <h1>Home</h1>
-      <p>Email: {email || fallbackEmail}</p>
-      <button onClick={handleLogout}>Logout</button>
+      <h1>Home Page</h1>
+      {userData ? (
+        <>
+          <p>Welcome, {userData.name}!</p>
+          <p>Email: {userData.email}</p>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <p>Loading user data...</p>
+      )}
     </div>
-  )
+  );
 }

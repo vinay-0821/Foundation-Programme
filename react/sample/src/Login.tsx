@@ -28,8 +28,7 @@ export default function Login() {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('email', email);
-        dispatch(login({ token: data.token, email }));
+        dispatch(login({ token: data.token }));
         navigate('/home', { state: { email } });
       }
       else {

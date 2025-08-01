@@ -9,7 +9,7 @@ import { Routes } from 'react-router-dom';
 import Home from './Home';
 import PrivateRoute from './PrivateRoute';
 import { useDispatch } from 'react-redux';
-import { login } from './authSlice';
+import { login, logout } from './authSlice';
 import { jwtDecode } from 'jwt-decode';
 
 function App() {
@@ -18,9 +18,23 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const email = localStorage.getItem("email"); 
-    if (token && email) {
-      dispatch(login({ token, email }));
+    if (token) {
+      try {
+        const decoded = jwtDecode<{ exp: number; email: string }>(token);
+        const isExpired = decoded.exp * 1000 < Date.now();
+
+        if (isExpired) {
+          localStorage.removeItem("token");
+          dispatch(logout());
+        } else {
+          dispatch(login({ token}));
+        }
+      } 
+      catch (error) {
+        console.error("Invalid token");
+        localStorage.removeItem("token");
+        dispatch(logout());
+      }
     }
   }, []);
 

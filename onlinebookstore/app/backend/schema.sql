@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS online_bookstore;
-CREATE DATABASE online_bookstore;
-USE online_bookstore;
+DROP DATABASE IF EXISTS bookstore;
+CREATE DATABASE bookstore;
+USE bookstore;
 
 -- USERS
 CREATE TABLE users (

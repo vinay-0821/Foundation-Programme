@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./auth.css";
+import axios from 'axios';
 
 export default function SignUp() {
   const [username,setUsername] = useState("");
@@ -12,6 +13,48 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (username === '' || email === '' || password === '') {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    console.log("handleSubmit in signup");
+
+    try {
+      // const res = await axios.post('http://localhost:5000/signup', {
+      //   username,
+      //   email,
+      //   password,
+      // });
+
+      // console.log(res);
+
+      // if(res){
+      //   navigate('/login'); 
+      // }
+
+      const response = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      console.log("it is response",response);
+
+      const data = await response.json();
+        if (response.ok) {
+          navigate('/login');
+        } 
+        else {
+          setError(data.message || 'User alreadyy exist');
+        }
+      
+    } 
+    catch (err: any) {
+      console.log(err);
+      setError(err.response?.data?.message || 'SignUp failed');
+    }
   }
 
   return (

@@ -19,12 +19,19 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
 
-      const token = res.data.token;
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      const token = data.token;
       const decoded: any = jwtDecode(token);
 
       const user = {
@@ -36,7 +43,8 @@ export default function Login() {
 
       dispatch(login({ user, token }));
       navigate('/'); 
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
     }
   };

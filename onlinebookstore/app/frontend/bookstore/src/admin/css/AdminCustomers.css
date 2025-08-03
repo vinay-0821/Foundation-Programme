@@ -1,0 +1,75 @@
+.admin-customers-page {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-customers-container {
+    padding: 50px;
+    background-color: #f4f6f9;
+}
+
+.admin-customers-page h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #2c3e50;
+}
+
+.search-input {
+  padding: 10px 15px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.search-input:focus {
+  border-color: #3498db;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.customer-table thead {
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+}
+
+.customer-table th,
+.customer-table td {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 1px solid #eaeaea;
+  transition: background-color 0.3s;
+}
+
+.customer-table th:hover {
+  background-color: #2980b9;
+}
+
+.customer-table tr:hover td {
+  background-color: #f1f9ff;
+}
+
+@media screen and (max-width: 768px) {
+  .customer-table th,
+  .customer-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+}

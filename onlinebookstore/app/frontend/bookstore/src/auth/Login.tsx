@@ -37,12 +37,19 @@ export default function Login() {
       const user = {
         id: decoded.id,
         email: decoded.email,
-        name: decoded.name,
         role: decoded.role,
       };
 
       dispatch(login({ user, token }));
-      navigate('/'); 
+      if(user.role === 'admin'){
+        navigate('/admin/dashboard');
+      }
+      else if(user.role === 'buyer'){
+        navigate('/home');
+      }
+      else if(user.role === 'seller'){ 
+        navigate('/sellerhome'); 
+      }
     } 
     catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');

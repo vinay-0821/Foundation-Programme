@@ -15,6 +15,12 @@ interface User {
   join_date?: Date;     
 }
 
+interface UserToken {
+  userid: number;
+  role: 'buyer' | 'admin' | 'seller';
+  email: string;  
+}
+
 
 export async function findUserByEmail(email: string): Promise<User | null> {
   const [rows]: any = await (await db).query('SELECT * FROM users WHERE email = ?', [email]);
@@ -30,7 +36,7 @@ export async function validateUser(email: string, password: string): Promise<Use
   return null;
 }
 
-export function generateToken(user: User): string {
+export function generateToken(user: UserToken): string {
   return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: '1h' });
 }
 

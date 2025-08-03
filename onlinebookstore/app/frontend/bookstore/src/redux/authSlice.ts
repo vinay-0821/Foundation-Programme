@@ -4,7 +4,6 @@ import { jwtDecode } from 'jwt-decode';
 interface User {
   id: number;
   email: string;
-  name: string;
   role: string;
 }
 
@@ -18,15 +17,14 @@ const initialState: AuthState = {
   token: null,
 };
 
-const decodeToken = (token: string): User => {
-  const decoded: any = jwtDecode(token);
-  return {
-    id: decoded.email,
-    email: decoded.email,
-    name: decoded.name,
-    role: decoded.role,
-  };
-};
+// const decodeToken = (token: string): User => {
+//   const decoded: any = jwtDecode(token);
+//   return {
+//     id: decoded.email,
+//     email: decoded.email,
+//     role: decoded.role,
+//   };
+// };
 
 const authSlice = createSlice({
   name: 'auth',
@@ -60,7 +58,6 @@ const authSlice = createSlice({
             state.user = {
               id: decoded.id,
               email: decoded.email,
-              name: decoded.name,
               role: decoded.role,
             };
           }

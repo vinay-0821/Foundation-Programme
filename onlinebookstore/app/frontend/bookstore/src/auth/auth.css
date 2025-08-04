@@ -92,6 +92,18 @@ img {
   font-style: italic;
 }
 
+.role-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+.role-toggle label {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
 @media (max-width: 768px) {
   .login,
   .signup {

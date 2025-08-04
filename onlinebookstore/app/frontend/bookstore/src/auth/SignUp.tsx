@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./auth.css";
 import axios from 'axios';
+import { signupUser } from '../services/authapi';
 
 export default function SignUp() {
   const [username,setUsername] = useState("");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [role, setRole] = useState<'customer' | 'seller'>('customer');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,55 +25,54 @@ export default function SignUp() {
     console.log("handleSubmit in signup");
 
     try {
-      // const res = await axios.post('http://localhost:5000/signup', {
-      //   username,
-      //   email,
-      //   password,
-      // });
 
-      // console.log(res);
+      const response = await signupUser(username, email, password, role, mobile);
 
-      // if(res){
-      //   navigate('/login'); 
-      // }
-
-      const response = await fetch('http://localhost:5000/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
-      });
-
-      console.log("it is response",response);
-
-      const data = await response.json();
-        if (response.ok) {
-          navigate('/login');
-        } 
-        else {
-          setError(data.message || 'User alreadyy exist');
-        }
+      console.log("Signup Success", response);
+      navigate('/login');
       
     } 
     catch (err: any) {
-      console.log(err);
-      setError(err.response?.data?.message || 'SignUp failed');
+      console.log("it is giving this error",err);
+      setError(err.message);
     }
   }
 
   return (
     <div className="signup">
-      <img src={require("../assets/bookmain.jpg")} alt="bookstoreimg" />
-      
+      <img src={require('../assets/bookmain.jpg')} alt="bookstoreimg" />
+
       <div className="signup-form">
         <h1>Sign Up</h1>
-        <p style={{ color: 'red', fontStyle: 'italic' }}>{error && <span className="error">{error}</span>}</p>
+
+        <div className="role-toggle">
+          <label>
+            <input type="radio" value="customer" checked={role === 'customer'} onChange={() => setRole('customer')} />
+            Customer
+          </label>
+          <label>
+            <input
+              type="radio" value="seller" checked={role === 'seller'} onChange={() => setRole('seller')} />
+            Seller
+          </label>
+        </div>
+
+        <p style={{ color: 'red', fontStyle: 'italic' }}>
+          {error && <span className="error">{error}</span>}
+        </p>
+
         <form onSubmit={handleSubmit}>
           <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
           <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+          <input type="tel" placeholder="Mobile Number" onChange={(e) => setMobile(e.target.value)} />
+
           <button type="submit">Sign Up</button>
         </form>
-        <p>Already have an account? <a href="/login">Login</a></p>
+
+        <p>
+          Already have an account? <a href="/login">Login</a>
+        </p>
       </div>
     </div>
   )

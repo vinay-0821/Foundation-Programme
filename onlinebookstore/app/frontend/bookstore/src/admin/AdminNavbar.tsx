@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/AdminNavbar.css";
-import { logout } from "../redux/authSlice";
+import { logout } from "../utils/authSlice";
 import { useDispatch } from "react-redux";
 import { FaBars, FaUserCircle } from "react-icons/fa";
 

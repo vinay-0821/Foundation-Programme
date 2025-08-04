@@ -2,7 +2,7 @@
 interface User {
   userid: number;
   password: string;
-  role: 'buyer' | 'admin' | 'seller';
+  role: string;
   name: string;
   email: string;
   phoneNo?: string;

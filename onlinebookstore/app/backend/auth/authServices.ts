@@ -6,10 +6,10 @@ import jwt from 'jsonwebtoken';
 interface User {
   userid: number;
   password: string;
-  role: 'buyer' | 'admin' | 'seller';
+  role: string;
   name: string;
   email: string;
-  phoneNo?: string;
+  phoneNo: string;
   address?: string;
   date_of_birth?: Date; 
   join_date?: Date;     
@@ -17,7 +17,7 @@ interface User {
 
 interface UserToken {
   userid: number;
-  role: 'buyer' | 'admin' | 'seller';
+  role: string;
   email: string;  
 }
 
@@ -40,13 +40,13 @@ export function generateToken(user: UserToken): string {
   return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: '1h' });
 }
 
-export async function insertUser(username: string, email: string, password: string): Promise<User | null> {
+export async function insertUser(username: string, email: string, password: string, role: string, mobile: string): Promise<User | null> {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [result]: any = await (await db).query(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-      [username, email, hashedPassword]
+      'INSERT INTO users (name, email, password, role, phoneNo) VALUES (?, ?, ?, ?, ?)',
+      [username, email, hashedPassword, role, mobile]
     );
 
     const newUser: User = {
@@ -54,7 +54,8 @@ export async function insertUser(username: string, email: string, password: stri
       name: username,
       email,
       password: '',
-      role: 'buyer'
+      role: role,
+      phoneNo: mobile
     };
 
     return newUser;

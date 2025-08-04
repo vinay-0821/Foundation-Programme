@@ -6,6 +6,7 @@ interface Customer {
   id: number;
   name: string;
   email: string;
+  mobile: string;
   amount_spent: number;
 }
 

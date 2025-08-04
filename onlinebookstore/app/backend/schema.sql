@@ -12,7 +12,8 @@ CREATE TABLE users (
   phoneNo VARCHAR(20),
   address VARCHAR(255),
   date_of_birth DATE,
-  join_date DATETIME DEFAULT CURRENT_TIMESTAMP
+  join_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  isapproved BOOLEAN DEFAULT False
 );
 
 -- BOOKS
@@ -25,7 +26,7 @@ CREATE TABLE books (
   userid INT,
   price DECIMAL(10,2) NOT NULL,
   stock INT DEFAULT 0,
-  date_publi DATE,
+  date_publish DATE,
   FOREIGN KEY (userid) REFERENCES users(userid)
 );
 

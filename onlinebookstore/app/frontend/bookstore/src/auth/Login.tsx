@@ -3,8 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import "./auth.css";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import { login } from '../redux/authSlice';
+import { login } from '../utils/authSlice';
 import { useDispatch } from 'react-redux';
+import { loginUser } from '../services/authapi';
 // import { bookImg } from "../assets/bookmain.jpg"
 
 export default function Login() {
@@ -19,19 +20,10 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await loginUser(email, password);
+      console.log("it is logging in", res)
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      const token = data.token;
+      const token = res.token;
       const decoded: any = jwtDecode(token);
 
       const user = {
@@ -44,7 +36,7 @@ export default function Login() {
       if(user.role === 'admin'){
         navigate('/admin/dashboard');
       }
-      else if(user.role === 'buyer'){
+      else if(user.role === 'customer'){
         navigate('/home');
       }
       else if(user.role === 'seller'){ 

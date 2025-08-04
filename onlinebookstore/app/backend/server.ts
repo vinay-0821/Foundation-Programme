@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import authRoutes from './auth/authRoutes.ts';
+import adminRoutes from './admin/adminRoutes.ts';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 // console.log("server.ts");
 app.use(authRoutes);
+app.use(adminRoutes);
 
 app.get('/test', (req, res) => {
   res.send('Backend is working!');

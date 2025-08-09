@@ -5,17 +5,17 @@ import { fetchBooks } from '../services/adminapis';
 import debounce from 'lodash.debounce';
 
 interface Book {
-  id: number;
+  bookid: number;
   title: string;
   genre: string;
-  availableCount: number;
+  avaliableCount: number;
   soldCount: number;
-  sellerName: string;
+  seller_email: string;
 }
 
 export default function AdminBooks() {
   const [books, setBooks] = useState<Book[]>([]);
-  const [sortBy, setSortBy] = useState<'title' | 'genre' | 'available' | 'sold' | 'rating'>('title');
+  const [sortBy, setSortBy] = useState<'title' | 'genre' | 'available' | 'sold'>('title');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [genre, setGenre] = useState('');
   const [seller, setSeller] = useState('');
@@ -25,14 +25,19 @@ export default function AdminBooks() {
     const fetchData = async () => {
       try {
         const data = await fetchBooks(genre, seller, title, sortBy, order);
+        // console.log("This is data: ", data);
         setBooks(data);
       } catch (err) {
         console.error(err);
       }
     };
 
+    
+
     const debouncedFetch = debounce(fetchData, 500);
     debouncedFetch();
+    
+    // console.log("this is books: ", books );
 
     return () => debouncedFetch.cancel();
   }, [genre, seller, title, sortBy, order]);
@@ -49,6 +54,8 @@ export default function AdminBooks() {
   const handleBookClick = (book: Book) => {
     console.log('Clicked book:', book);
   };
+
+  
 
   return (
     <div className="admin-customers-page">
@@ -99,13 +106,13 @@ export default function AdminBooks() {
           </thead>
           <tbody>
             {books.map((b) => (
-              <tr key={b.id} onClick={() => handleBookClick(b)}>
+              <tr key={b.bookid} onClick={() => handleBookClick(b)} style={{cursor: 'pointer'}}>
                 <td>{b.title}</td>
                 <td>{b.genre}</td>
-                <td>{b.availableCount}</td>
-                {/* {b.soldCount} */}
-                <td>0</td>
-                <td>{b.sellerName}</td>
+                <td>{b.avaliableCount}</td>
+                
+                <td>{b.soldCount}</td>
+                <td>{b.seller_email}</td>
               </tr>
             ))}
           </tbody>

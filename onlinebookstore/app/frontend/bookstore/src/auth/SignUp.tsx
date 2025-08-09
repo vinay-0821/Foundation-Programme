@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./auth.css";
-import axios from 'axios';
 import { signupUser } from '../services/authapi';
 
 export default function SignUp() {
@@ -11,6 +10,12 @@ export default function SignUp() {
   const [mobile, setMobile] = useState('');
   const [role, setRole] = useState<'customer' | 'seller'>('customer');
   const [error, setError] = useState('');
+
+  const [addressline, setAddressline] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [pincode, setPincode] = useState('');
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,19 +27,29 @@ export default function SignUp() {
       return;
     }
 
-    console.log("handleSubmit in signup");
+    if (role === 'seller' && (addressline === '' || state === '' || country === '' || pincode === '')) {
+      setError('Please fill in all seller address fields');
+      return;
+    }
+
+    const address = `${addressline}, ${state}, ${country} - ${pincode}`
 
     try {
-
-      const response = await signupUser(username, email, password, role, mobile);
+      const response = await signupUser(
+        username,
+        email,
+        password,
+        role,
+        mobile,
+        address,
+      );
 
       console.log("Signup Success", response);
       navigate('/login');
-      
     } 
     catch (err: any) {
-      console.log("it is giving this error",err);
-      setError(err.message);
+      console.log("Signup Error", err);
+      setError(err.message || 'Signup failed');
     }
   }
 
@@ -51,8 +66,7 @@ export default function SignUp() {
             Customer
           </label>
           <label>
-            <input
-              type="radio" value="seller" checked={role === 'seller'} onChange={() => setRole('seller')} />
+            <input type="radio" value="seller" checked={role === 'seller'} onChange={() => setRole('seller')} />
             Seller
           </label>
         </div>
@@ -66,6 +80,15 @@ export default function SignUp() {
           <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
           <input type="tel" placeholder="Mobile Number" onChange={(e) => setMobile(e.target.value)} />
+
+          {role === 'seller' && (
+            <>
+              <input type="text" placeholder="Addressline" onChange={(e) => setAddressline(e.target.value)} />
+              <input type="text" placeholder="State" onChange={(e) => setState(e.target.value)} />
+              <input type="text" placeholder="Country" onChange={(e) => setCountry(e.target.value)} />
+              <input type="text" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
+            </>
+          )}
 
           <button type="submit">Sign Up</button>
         </form>

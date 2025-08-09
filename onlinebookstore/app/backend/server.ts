@@ -14,9 +14,9 @@ app.use(cors());
 app.use(authRoutes);
 app.use(adminRoutes);
 
-app.get('/test', (req, res) => {
-  res.send('Backend is working!');
-});
+// app.get('/test', (req, res) => {
+//   res.send('Backend is working!');
+// });
 
 app.listen(5000, () => {
   console.log("Sever is running on 'http://localhost:5000'");

@@ -1,11 +1,11 @@
 .admin-customers-page {
-  background-color: #f4f6f9;
+  background-color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .admin-customers-container {
     padding: 50px;
-    background-color: #f4f6f9;
+    background-color: white;
 }
 
 .admin-customers-page h2 {

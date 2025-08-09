@@ -23,8 +23,213 @@ export const fetchBooks = async (
     }
   });
 
+  const contentType = res.headers.get("content-type");
+
   if (!res.ok) {
-    throw new Error('Failed to fetch books');
+    const errorText = await res.text();
+    console.error("Error response:", errorText);
+    throw new Error(`Failed to fetch books: ${res.status} ${res.statusText}`);
   }
+
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    const errorText = await res.text(); 
+    console.error("Unexpected non-JSON response:", errorText);
+    throw new Error("Expected JSON but received something else");
+  }
+};
+
+
+export const fetchCustomers = async (
+  sortBy: string,
+  order: string,
+  search: string
+) => {
+  const token = localStorage.getItem("token");
+
+  const params = new URLSearchParams({
+    sortBy,
+    order,
+    search,
+  });
+
+  const res = await fetch(
+    `http://localhost:5000/admin/customers?${params.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const contentType = res.headers.get("content-type");
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Error response:", errorText);
+    throw new Error(`Failed to fetch customers: ${res.status} ${res.statusText}`);
+  }
+
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    const errorText = await res.text();
+    console.error("Unexpected non-JSON response:", errorText);
+    throw new Error("Expected JSON but received something else");
+  }
+};
+
+
+export const fetchSellers = async (
+  sortBy: string,
+  order: string,
+  search: string
+) => {
+  const token = localStorage.getItem("token");
+
+  const params = new URLSearchParams({
+    sortBy,
+    order,
+    search,
+  });
+
+  const res = await fetch(
+    `http://localhost:5000/admin/sellers?${params.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const contentType = res.headers.get("content-type");
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Error response:", errorText);
+    throw new Error(`Failed to fetch sellers: ${res.status} ${res.statusText}`);
+  }
+
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } 
+  else {
+    const errorText = await res.text();
+    console.error("Unexpected non-JSON response:", errorText);
+    throw new Error("Expected JSON but received something else");
+  }
+};
+
+
+export const topCustomers = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/admin/dashboard/topcustomers`, 
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch top customers');
+  }
+
   return res.json();
+};
+
+export const topSellers = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/admin/dashboard/topsellers`, 
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch top sellers');
+  }
+
+  return res.json();
+};
+
+export const topBooks = async () => {
+  const token = localStorage.getItem("token");
+  
+  const res = await fetch(`http://localhost:5000/admin/dashboard/topbooks`, 
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch top books');
+  }
+
+  return res.json();
+};
+
+
+export type Seller = {
+  id: number;
+  name: string;
+  email: string;
+  phonneNo: string;
+  address: string;
+  date_of_birth: Date;
+  join_date: Date;
+};
+
+export const fetchPendingSellers = async (): Promise<Seller[]> => {
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/admin/sellers/pending`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch sellers: ${res.statusText}`);
+  }
+
+  return res.json();
+};
+
+export const decideSeller = async (
+  id: number,
+  action: "approve" | "reject"
+): Promise<void> => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/admin/sellers/decision/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ action }),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Failed to ${action} seller: ${errorText}`);
+  }
 };

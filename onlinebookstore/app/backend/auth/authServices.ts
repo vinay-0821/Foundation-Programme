@@ -40,13 +40,13 @@ export function generateToken(user: UserToken): string {
   return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: '1h' });
 }
 
-export async function insertUser(username: string, email: string, password: string, role: string, mobile: string): Promise<User | null> {
+export async function insertUser(username: string, email: string, password: string, role: string, mobile: string, address: string): Promise<User | null> {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [result]: any = await (await db).query(
-      'INSERT INTO users (name, email, password, role, phoneNo) VALUES (?, ?, ?, ?, ?)',
-      [username, email, hashedPassword, role, mobile]
+      'INSERT INTO users (name, email, password, role, phoneNo, address) VALUES (?, ?, ?, ?, ?, ?)',
+      [username, email, hashedPassword, role, mobile, address]
     );
 
     const newUser: User = {
@@ -55,7 +55,8 @@ export async function insertUser(username: string, email: string, password: stri
       email,
       password: '',
       role: role,
-      phoneNo: mobile
+      phoneNo: mobile,
+      address: address
     };
 
     return newUser;

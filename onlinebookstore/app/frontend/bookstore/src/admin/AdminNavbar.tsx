@@ -63,7 +63,6 @@ const AdminNavbar = () => {
         <Link to="/admin/books" onClick={() => setIsOpen(false)}>Books</Link>
         <Link to="/admin/customers" onClick={() => setIsOpen(false)}>Customers</Link>
         <Link to="/admin/sellers" onClick={() => setIsOpen(false)}>Sellers</Link>
-        <Link to="/admin/stats" onClick={() => setIsOpen(false)}>Statistics</Link>
 
         <div className="mobile-only">
           <Link to="/admin/profile" onClick={() => setIsOpen(false)}>Profile</Link>

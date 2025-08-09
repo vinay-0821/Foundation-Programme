@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminNavbar from './AdminNavbar';
 import './css/AdminDashboard.css';
+import { topCustomers as tc} from '../services/adminapis';
+import { topSellers as ts} from '../services/adminapis';
+import { topBooks as tb} from '../services/adminapis';
 
 interface Customer {
   name: string;
@@ -28,21 +31,30 @@ export default function AdminDashboard() {
   const [topCustomers, setTopCustomers] = useState<Customer[]>([]);
   const [topSellers, setTopSellers] = useState<Seller[]>([]);
   const [topBooks, setTopBooks] = useState<Book[]>([]);
+  // const [topCustomerData, settopCustomerData] = useState("");
 
 
-  useEffect(() => {
-    fetch('/api/top-customers')
-      .then(res => res.json())
-      .then(data => setTopCustomers(data));
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [topCustomersData, topSellersData, topBooksData] = await Promise.all([
+        tc(),
+        ts(),
+        tb(),
+      ]);
 
-    fetch('/api/top-sellers')
-      .then(res => res.json())
-      .then(data => setTopSellers(data));
+      setTopCustomers(topCustomersData);
+      setTopSellers(topSellersData);
+      setTopBooks(topBooksData);
+    } 
+    catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
 
-    fetch('/api/top-books')
-      .then(res => res.json())
-      .then(data => setTopBooks(data));
-  }, []);
+  fetchData();
+}, []);
+
 
   return (
     <div className="admin-dashboard">
@@ -57,6 +69,7 @@ export default function AdminDashboard() {
             {topCustomers[0] && (
               <>
                 <p>{topCustomers[0].name}</p>
+                <p>{topCustomers[0].email}</p>
                 <span>₹{topCustomers[0].spent} spent</span>
               </>
             )}
@@ -67,6 +80,7 @@ export default function AdminDashboard() {
             {topSellers[0] && (
               <>
                 <p>{topSellers[0].name}</p>
+                <p>{topSellers[0].email}</p>
                 <span>₹{topSellers[0].revenue} earned</span>
               </>
             )}
@@ -74,12 +88,12 @@ export default function AdminDashboard() {
 
           <div className="stat-card purple">
             <h3>Total Customer Spend</h3>
-            <p>₹{topCustomers.reduce((sum, c) => sum + c.spent, 0)}</p>
+            <p>{topCustomers.reduce((sum, c) => sum + Number(c.spent || 0), 0)}</p>
           </div>
 
           <div className="stat-card orange">
             <h3>Total Books Sold</h3>
-            <p>{topBooks.reduce((sum, b) => sum + b.copiesSold, 0)}</p>
+            <p>{topBooks.reduce((sum, b) => sum + Number(b.copiesSold || 0), 0)}</p>
           </div>
         </div>
 

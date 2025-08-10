@@ -1,4 +1,5 @@
 import { db } from '../database.ts';
+import bcrypt from "bcrypt";
 
 export const fetchAllBooks = async (
   genre?: string,
@@ -237,3 +238,29 @@ export const updateSellerStatus = async (
   }
 };
 
+
+export const getAdminById = async (adminId) => {
+  const id = adminId.userid;
+  // console.log("Services in Id:", id);
+  const [rows] = await (await db).query(
+    "SELECT userid, name, email, phoneNo, address, date_of_birth FROM users WHERE userid = ?",
+    [id]
+  );
+  // console.log(rows);
+  return rows[0];
+};
+
+export const updateAdminDetails = async (adminId, { name, email, phone, address, dob }) => {
+  const id = adminId.userid;
+  // console.log("Services in Id:", id);
+  await (await db).query(
+    "UPDATE users SET name = ?, email = ?, phoneNo = ?, address = ?, date_of_birth = ? WHERE userid = ?",
+    [name, email, phone, address, dob, id]
+  );
+};
+
+export const updateAdminPassword = async (adminId, password) => {
+  const id = adminId.userid;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await (await db).query("UPDATE users SET password = ? WHERE userid = ?", [hashedPassword, id]);
+};

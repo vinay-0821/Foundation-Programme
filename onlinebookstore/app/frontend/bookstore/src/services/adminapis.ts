@@ -233,3 +233,45 @@ export const decideSeller = async (
     throw new Error(`Failed to ${action} seller: ${errorText}`);
   }
 };
+
+
+export const getAdminProfile = async () => {
+
+  const token = localStorage.getItem("token");
+  const res = await fetch(`http://localhost:5000/admin/profile`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.json();
+};
+
+export const updateAdminProfile = async (data: { name: string; email: string; phone: string; address: string; dob: string; }) => {
+
+  const token = localStorage.getItem("token");
+  const res = await fetch(`http://localhost:5000/admin/profile`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};
+
+export const changeAdminPassword = async (password: string) => {
+
+  const token = localStorage.getItem("token");
+  const res = await fetch(`http://localhost:5000/admin/password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ password }),
+  });
+  return res.json();
+};

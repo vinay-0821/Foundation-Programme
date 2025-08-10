@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllBooks, getAllCustomers, getAllSellers, getPendingSellers, getTopBooks, getTopCustomers, getTopSellers, handleSeller } from './adminController.ts';
+import { changeAdminPassword, getAdminProfile, getAllBooks, getAllCustomers, getAllSellers, getPendingSellers, getTopBooks, getTopCustomers, getTopSellers, handleSeller, updateAdminProfile } from './adminController.ts';
 import { verifyToken, isAdmin } from '../utils/middleware.ts';
 
 const router = express.Router();
@@ -21,6 +21,12 @@ router.get('/admin/dashboard/topbooks', getTopBooks);
 router.get('/admin/sellers/pending', getPendingSellers);
 
 router.post('/admin/sellers/decision/:id', handleSeller);
+
+router.get("/admin/profile", getAdminProfile);
+
+router.put("/admin/profile", updateAdminProfile);
+
+router.put("/admin/password", changeAdminPassword);
 
 
 export default router;

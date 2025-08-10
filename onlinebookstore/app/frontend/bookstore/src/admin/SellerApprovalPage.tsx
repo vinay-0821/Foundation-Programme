@@ -37,7 +37,7 @@ export default function SellerApprovalPage() {
       <AdminNavbar />
       <div className="approval-sellers">
         <h1 className="approval-title">
-          Hey, admin you can decide who can sell{" "}
+          Hey, admin you can decide who can sell,{" "}
           <span>
             <strong>approve sellers below</strong>
           </span>

@@ -1,5 +1,13 @@
 import type { Request, Response } from 'express';
-import { fetchAllBooks, fetchAllCustomers, fetchAllSellers, fetchPendingSellers, fetchTopBooks, fetchTopCustomers, fetchTopSellers, updateSellerStatus } from './adminServices.ts';
+import { fetchAllBooks, fetchAllCustomers, fetchAllSellers, fetchPendingSellers, fetchTopBooks, fetchTopCustomers, fetchTopSellers, getAdminById, updateAdminDetails, updateAdminPassword, updateSellerStatus } from './adminServices.ts';
+import jwt from "jsonwebtoken";
+
+
+function decodeToken(token) {
+  if (!token) throw new Error("No token provided");
+
+  return jwt.verify(token, process.env.JWT_SECRET as string);
+}
 
 export const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -114,5 +122,49 @@ export const handleSeller = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error handling seller decision:", error);
     res.status(500).json({ message: "Server error while updating seller status" });
+  }
+};
+
+
+export const getAdminProfile = async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const data = decodeToken(token);
+  // console.log("this f:", data);
+  try {
+    const adminId = data;
+    // console.log("Admin Id", adminId);
+    const admin = await getAdminById(adminId);
+    // console.log("AdminController: ",admin);
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+    res.json(admin);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const updateAdminProfile = async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const data = decodeToken(token);
+  // console.log(data);
+  try {
+    const adminId = data;
+    await updateAdminDetails(adminId, req.body);
+    res.json({ message: "Profile updated successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const changeAdminPassword = async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const data = decodeToken(token);
+  try {
+    const adminId = data;
+    const { password } = req.body;
+    if (!password) return res.status(400).json({ message: "Password required" });
+    await updateAdminPassword(adminId, password);
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

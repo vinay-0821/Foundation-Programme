@@ -9,6 +9,7 @@ import SellerApprovalPage from '../admin/SellerApprovalPage'
 import AdminCustomers from '../admin/AdminCustomers'
 import AdminSellers from '../admin/AdminSellers'
 import AdminBooks from '../admin/AdminBooks'
+import AdminProfile from '../admin/AdminProfile'
 
 export default function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function AppRoutes() {
         <Route path="/admin/customers" element={<PrivateRoute allowedRoles={['admin']}><AdminCustomers /></PrivateRoute>} />
         <Route path="/admin/sellers" element={<PrivateRoute allowedRoles={['admin']}><AdminSellers /></PrivateRoute>} />
         <Route path="/admin/books" element={<PrivateRoute allowedRoles={['admin']}><AdminBooks /></PrivateRoute>} />
+        <Route path="/admin/profile" element={<PrivateRoute allowedRoles={['admin']}><AdminProfile /></PrivateRoute>} />
     </Routes>
   )
 }

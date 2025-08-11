@@ -3,8 +3,7 @@
   display: grid;
   grid-template-columns: 70% 30%;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
+  min-height: calc(100vh - 7vh);
 }
 
 img {
@@ -12,6 +11,7 @@ img {
   padding-right: 50px;
   width: 80%;
   height: 75%;
+  object-fit: contain;
 }
 
 .login-form,
@@ -109,15 +109,20 @@ img {
   .signup {
     grid-template-columns: 1fr;
     grid-template-rows: 40vh 1fr;
+    height: calc(100vh - 60px);
   }
 
   img {
+    width: 100%;
     height: 100%;
+    object-fit: cover;
+    padding: 0;
   }
 
   .login-form,
   .signup-form {
     padding: 2rem;
+    max-width: 90%;
   }
 }
 

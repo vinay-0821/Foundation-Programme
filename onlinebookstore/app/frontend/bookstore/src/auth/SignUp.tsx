@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./auth.css";
 import { signupUser } from '../services/authapi';
+import Navbar from '../components/Navbar';
 
 export default function SignUp() {
   const [username,setUsername] = useState("");
@@ -54,48 +55,51 @@ export default function SignUp() {
   }
 
   return (
-    <div className="signup">
-      <img src={require('../assets/bookmain.jpg')} alt="bookstoreimg" />
+    <div>
+      <Navbar />
+      <div className="signup">
+        <img src={require('../assets/bookmain.jpg')} alt="bookstoreimg" />
 
-      <div className="signup-form">
-        <h1>Sign Up</h1>
+        <div className="signup-form">
+          <h1>Sign Up</h1>
 
-        <div className="role-toggle">
-          <label>
-            <input type="radio" value="customer" checked={role === 'customer'} onChange={() => setRole('customer')} />
-            Customer
-          </label>
-          <label>
-            <input type="radio" value="seller" checked={role === 'seller'} onChange={() => setRole('seller')} />
-            Seller
-          </label>
+          <div className="role-toggle">
+            <label>
+              <input type="radio" value="customer" checked={role === 'customer'} onChange={() => setRole('customer')} />
+              Customer
+            </label>
+            <label>
+              <input type="radio" value="seller" checked={role === 'seller'} onChange={() => setRole('seller')} />
+              Seller
+            </label>
+          </div>
+
+          <p style={{ color: 'red', fontStyle: 'italic' }}>
+            {error && <span className="error">{error}</span>}
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+            <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            <input type="tel" placeholder="Mobile Number" onChange={(e) => setMobile(e.target.value)} />
+
+            {role === 'seller' && (
+              <>
+                <input type="text" placeholder="Addressline" onChange={(e) => setAddressline(e.target.value)} />
+                <input type="text" placeholder="State" onChange={(e) => setState(e.target.value)} />
+                <input type="text" placeholder="Country" onChange={(e) => setCountry(e.target.value)} />
+                <input type="text" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
+              </>
+            )}
+
+            <button type="submit">Sign Up</button>
+          </form>
+
+          <p>
+            Already have an account? <a href="/login">Login</a>
+          </p>
         </div>
-
-        <p style={{ color: 'red', fontStyle: 'italic' }}>
-          {error && <span className="error">{error}</span>}
-        </p>
-
-        <form onSubmit={handleSubmit}>
-          <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-          <input type="tel" placeholder="Mobile Number" onChange={(e) => setMobile(e.target.value)} />
-
-          {role === 'seller' && (
-            <>
-              <input type="text" placeholder="Addressline" onChange={(e) => setAddressline(e.target.value)} />
-              <input type="text" placeholder="State" onChange={(e) => setState(e.target.value)} />
-              <input type="text" placeholder="Country" onChange={(e) => setCountry(e.target.value)} />
-              <input type="text" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
-            </>
-          )}
-
-          <button type="submit">Sign Up</button>
-        </form>
-
-        <p>
-          Already have an account? <a href="/login">Login</a>
-        </p>
       </div>
     </div>
   )

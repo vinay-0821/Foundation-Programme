@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { login } from '../utils/authSlice';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/authapi';
+import Navbar from '../components/Navbar';
 // import { bookImg } from "../assets/bookmain.jpg"
 
 export default function Login() {
@@ -21,7 +22,7 @@ export default function Login() {
 
     try {
       const res = await loginUser(email, password);
-      console.log("it is logging in", res)
+      // console.log("it is logging in", res)
 
       const token = res.token;
       const decoded: any = jwtDecode(token);
@@ -49,18 +50,21 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
-      <img src={require("../assets/bookmain.jpg")} alt="bookstoreimg" />
-      
-      <div className='login-form'>
-        <h1>Login</h1>
-        <p style={{ color: 'red', fontStyle: 'italic' }}>{error && <span className="error">{error}</span>}</p>
-        <form onSubmit={handleSubmit}>
-          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-          <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+    <div>
+      <Navbar />
+      <div className="login">
+        <img src={require("../assets/bookmain.jpg")} alt="bookstoreimg" />
+        
+        <div className='login-form'>
+          <h1>Login</h1>
+          <p style={{ color: 'red', fontStyle: 'italic' }}>{error && <span className="error">{error}</span>}</p>
+          <form onSubmit={handleSubmit}>
+            <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            <button type="submit">Login</button>
+          </form>
+          <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        </div>
       </div>
     </div>
   )

@@ -3,10 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 20vh);
+  /* max-height: 100vh; */
   padding: 40px 20px;
   text-align: center;
-  background: linear-gradient(to right, #e3e1fa, #f6f7ff);
+  /* background: linear-gradient(to right, #e3e1fa, #f6f7ff); */
 }
 
 .home-title {
@@ -21,4 +22,9 @@
   color: #444;
   max-width: 600px;
   line-height: 1.6;
+}
+
+.home-description a {
+  text-decoration: none;
+  color: #4a47a3;
 }

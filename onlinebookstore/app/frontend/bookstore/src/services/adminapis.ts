@@ -188,7 +188,7 @@ export type Seller = {
   id: number;
   name: string;
   email: string;
-  phonneNo: string;
+  phoneNo: string;
   address: string;
   date_of_birth: Date;
   join_date: Date;

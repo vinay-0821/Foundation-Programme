@@ -9,7 +9,8 @@ export const signupUser = async (username: string, email: string, password: stri
         email: email,
         password: password,
         role: role,
-        mobile: mobile
+        mobile: mobile,
+        address: address
     }
 
   try {

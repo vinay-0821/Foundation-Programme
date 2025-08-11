@@ -12,7 +12,7 @@ export default function SellerApprovalPage() {
       try {
         const data = await fetchPendingSellers();
         setPendingSellers(data);
-        // console.log("Pending Sellers: ", data);
+        console.log("Pending Sellers: ", data);
       } catch (error) {
         console.error("Error fetching pending sellers:", error);
       } finally {
@@ -57,7 +57,7 @@ export default function SellerApprovalPage() {
                     <strong>Email:</strong> {seller.email}
                   </p>
                   <p>
-                    <strong>Phone:</strong> {seller.phonneNo}
+                    <strong>Phone:</strong> {seller.phoneNo}
                   </p>
                   <p>
                     <strong>Address:</strong> {seller.address}

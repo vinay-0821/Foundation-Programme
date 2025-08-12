@@ -11,6 +11,7 @@ export const fetchAllBooks = async (
   let baseQuery = `
     SELECT 
       b.bookid, 
+      b.author,
       b.title, 
       b.price, 
       b.date_publish, 

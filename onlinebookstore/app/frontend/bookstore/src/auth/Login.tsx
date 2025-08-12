@@ -41,7 +41,7 @@ export default function Login() {
         navigate('/home');
       }
       else if(user.role === 'seller'){ 
-        navigate('/sellerhome'); 
+        navigate('/seller/dashboard'); 
       }
     } 
     catch (err: any) {

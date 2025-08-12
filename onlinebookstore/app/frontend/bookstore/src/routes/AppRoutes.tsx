@@ -10,6 +10,9 @@ import AdminCustomers from '../admin/AdminCustomers'
 import AdminSellers from '../admin/AdminSellers'
 import AdminBooks from '../admin/AdminBooks'
 import AdminProfile from '../admin/AdminProfile'
+// import SellerNavbar from '../seller/SellerNavbar'
+import SellerProfile from '../seller/SellerProfile'
+import SellerDashboard from '../seller/SellerDashboard'
 
 export default function AppRoutes() {
   return (
@@ -23,6 +26,9 @@ export default function AppRoutes() {
         <Route path="/admin/sellers" element={<PrivateRoute allowedRoles={['admin']}><AdminSellers /></PrivateRoute>} />
         <Route path="/admin/books" element={<PrivateRoute allowedRoles={['admin']}><AdminBooks /></PrivateRoute>} />
         <Route path="/admin/profile" element={<PrivateRoute allowedRoles={['admin']}><AdminProfile /></PrivateRoute>} />
+        <Route path="/seller/dashboard" element={<PrivateRoute allowedRoles={['seller']}><SellerDashboard /></PrivateRoute>} />
+        <Route path="/seller/profile" element={<PrivateRoute allowedRoles={['seller']}><SellerProfile /></PrivateRoute>} />
+        {/* <Route path="/sellerhome" element={<SellerNavbar />} /> */}
     </Routes>
   )
 }

@@ -3,6 +3,7 @@ import './css/AdminCustomers.css';
 import AdminNavbar from './AdminNavbar';
 import { fetchBooks } from '../services/adminapis';
 import debounce from 'lodash.debounce';
+import Book from '../components/Book';
 
 interface Book {
   bookid: number;
@@ -11,6 +12,9 @@ interface Book {
   avaliableCount: number;
   soldCount: number;
   seller_email: string;
+  author?: string;
+  price?: number;
+  image_url?: string;
 }
 
 export default function AdminBooks() {
@@ -20,6 +24,7 @@ export default function AdminBooks() {
   const [genre, setGenre] = useState('');
   const [seller, setSeller] = useState('');
   const [title, setTitle] = useState('');
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +57,7 @@ export default function AdminBooks() {
   };
 
   const handleBookClick = (book: Book) => {
-    console.log('Clicked book:', book);
+    setSelectedBook(book);
   };
 
   
@@ -86,6 +91,8 @@ export default function AdminBooks() {
           />
         </div>
 
+        
+
         <table className="customer-table">
           <thead>
             <tr>
@@ -106,14 +113,25 @@ export default function AdminBooks() {
           </thead>
           <tbody>
             {books.map((b) => (
-              <tr key={b.bookid} onClick={() => handleBookClick(b)} style={{cursor: 'pointer'}}>
-                <td>{b.title}</td>
-                <td>{b.genre}</td>
-                <td>{b.avaliableCount}</td>
-                
-                <td>{b.soldCount}</td>
-                <td>{b.seller_email}</td>
-              </tr>
+              <React.Fragment key={b.bookid}>
+                <tr
+                  onClick={() =>
+                    setSelectedBook(selectedBook?.bookid === b.bookid ? null : b)
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>{b.title}</td>
+                  <td>{b.genre}</td>
+                  <td>{b.avaliableCount}</td>
+                  <td>{b.soldCount}</td>
+                  <td>{b.seller_email}</td>
+                </tr>
+                {selectedBook?.bookid === b.bookid && (
+                  <Book
+                    book={selectedBook}
+                    onClose={() => setSelectedBook(null)}/>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>

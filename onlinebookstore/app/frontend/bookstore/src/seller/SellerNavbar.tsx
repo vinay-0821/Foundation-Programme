@@ -54,7 +54,7 @@ const SellerNavbar: React.FC = () => {
 
       <div className={`nav-links ${isOpen ? "open" : ""}`}>
         <Link to="/seller/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
-        <Link to="/seller/books" onClick={() => setIsOpen(false)}>My Books</Link>
+        <Link to="/seller/mybooks" onClick={() => setIsOpen(false)}>My Books</Link>
         <Link to="/seller/addbook" onClick={() => setIsOpen(false)}>Add Book</Link>
         <Link to="/seller/orders" onClick={() => setIsOpen(false)}>Orders</Link>
 

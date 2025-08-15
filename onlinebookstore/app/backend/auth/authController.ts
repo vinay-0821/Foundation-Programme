@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { validateUser, generateToken, findUserByEmail, insertUser } from './authServices.ts';
+import { validateUser, generateToken, findUserByEmail, insertUser, verifyToken } from './authServices.ts';
 
 
 export async function login(req: Request, res: Response) {
@@ -43,4 +43,26 @@ export async function signup(req: Request, res: Response) {
 
 export async function changepassword(req: Request, res: Response) {
 
+}
+
+export async function verify(req: Request, res: Response) {
+  const authHeader = req.headers['authorization'];
+
+  if (!authHeader) {
+    return res.status(401).json({ valid: false, message: 'No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ valid: false, message: 'Invalid token format' });
+  }
+
+  const result = verifyToken(token);
+
+  if (!result.valid) {
+    return res.status(401).json(result);
+  }
+
+  return res.json(result);
 }

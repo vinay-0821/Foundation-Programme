@@ -87,7 +87,7 @@ export default function SellerDashboard() {
                   <td>{order.id}</td>
                   <td>{order.book}</td>
                   <td>{order.date}</td>
-                  <td>₹{order.amount}</td>
+                  <td>{order.amount}</td>
                 </tr>
               ))}
             </tbody>

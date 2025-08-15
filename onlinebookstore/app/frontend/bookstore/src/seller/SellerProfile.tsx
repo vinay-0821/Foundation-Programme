@@ -1,179 +1,183 @@
-import React, { useEffect, useState } from "react";
-import SellerNavbar from "./SellerNavbar";
+import { Camera, Save, Lock, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import "./css/SellerProfile.css";
-import { getSellerProfile, updateSellerProfile } from "../services/sellerapis";
+import SellerNavbar from "./SellerNavbar";
+import { changeSellerPassword, getSellerProfile, updateSellerProfile } from "../services/sellerapis";
 
 export default function SellerProfile() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [seller, setSeller] = useState({
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [dob, setDob] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [originalData, setOriginalData] = useState({
     name: "",
-    businessName: "",
-    profilePicture: "/images/default-seller.png",
     email: "",
     phone: "",
-    location: "",
-    joined: "",
-    bio: ""
+    address: "",
+    dob: "",
   });
 
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        setLoading(true);
-        const data = await getSellerProfile();
-        setSeller(data);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+    const fetchProfile = async () => {
+      const data = await getSellerProfile();
+
+      const formattedDob = (mysqlDate: string | Date): string => {
+        const d = new Date(mysqlDate);
+        return (
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0")
+        );
+      };
+
+      setName(data.name);
+      setEmail(data.email);
+      setPhone(data.phoneNo);
+      setAddress(data.address);
+      setDob(formattedDob(data.date_of_birth));
+
+      setOriginalData({
+        name: data.name,
+        email: data.email,
+        phone: data.phoneNo,
+        address: data.address,
+        dob: formattedDob(data.date_of_birth),
+      });
+    };
     fetchProfile();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setSeller({ ...seller, [e.target.name]: e.target.value });
-  };
+  const handlePassword = async () => {
+    const res = await changeSellerPassword(password);
 
-  const handleSave = async () => {
-    try {
-      await updateSellerProfile(seller);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating profile:", error);
+    if (res.message) {
+      alert("Password changed successfully");
+      setPassword("");
+    } else {
+      alert("Failed to change password");
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <SellerNavbar />
-        <div className="seller-profile-container">
-          <p>Loading profile...</p>
-        </div>
-      </>
-    );
-  }
+  const handleSave = async () => {
+    const updatedData = { name, email, phone, address, dob };
+    const res = await updateSellerProfile(updatedData);
+
+    if (res.message) {
+      alert("Profile updated successfully");
+      setOriginalData(updatedData);
+    } else {
+      alert("Failed to update profile");
+    }
+  };
+
+  const handleCancel = () => {
+    setName(originalData.name);
+    setEmail(originalData.email);
+    setPhone(originalData.phone);
+    setAddress(originalData.address);
+    setDob(originalData.dob);
+  };
 
   return (
-    <>
+    <div>
       <SellerNavbar />
-      <div className="seller-profile-container">
-        <div className="profile-header">
-          <img
-            src={seller.profilePicture}
-            alt="Seller"
-            className="profile-pic"
-          />
-          <div>
-            <h1>{seller.businessName}</h1>
-            <p>Owner: {seller.name}</p>
-            <p>Joined: {seller.joined}</p>
+      <div className="profile-layout">
+        <div className="profile-sidebar">
+          <div className="profile-pic-container">
+            <img
+              src={require("../assets/bookmain.jpg")}
+              alt="Profile"
+              className="profile-pic"
+            />
+            <button className="change-pic-btn">
+              <Camera size={16} /> Change Picture
+            </button>
+          </div>
+
+          <div className="change-password">
+            <h3>Change Password</h3>
+            <input
+              type="password"
+              placeholder="Enter new password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button className="save-password-btn" onClick={handlePassword}>
+              <Lock size={16} /> Update Password
+            </button>
           </div>
         </div>
 
         <div className="profile-details">
-          {isEditing ? (
-            <>
-              <label htmlFor="name">Full Name</label>
-              <input
-                id="name"
-                name="name"
-                value={seller.name}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                title="Full Name"
-              />
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
+            <input
+              id="name"
+              type="text"
+              placeholder="Enter full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
 
-              <label htmlFor="businessName">Business Name</label>
-              <input
-                id="businessName"
-                name="businessName"
-                value={seller.businessName}
-                onChange={handleChange}
-                placeholder="Enter your business name"
-                title="Business Name"
-              />
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                name="email"
-                value={seller.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                title="Email"
-              />
+          <div className="form-group">
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="Enter phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
 
-              <label htmlFor="phone">Phone</label>
-              <input
-                id="phone"
-                name="phone"
-                value={seller.phone}
-                onChange={handleChange}
-                placeholder="Enter your phone number"
-                title="Phone Number"
-              />
+          <div className="form-group">
+            <label htmlFor="address">Address</label>
+            <input
+              id="address"
+              type="text"
+              placeholder="Enter address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
 
-              <label htmlFor="location">Location</label>
-              <input
-                id="location"
-                name="location"
-                value={seller.location}
-                onChange={handleChange}
-                placeholder="Enter your location"
-                title="Location"
-              />
+          <div className="form-group">
+            <label htmlFor="dob">Date of Birth</label>
+            <input
+              id="dob"
+              type="date"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+            />
+          </div>
 
-              <label htmlFor="bio">Bio</label>
-              <textarea
-                id="bio"
-                name="bio"
-                value={seller.bio}
-                onChange={handleChange}
-                placeholder="Write something about yourself"
-                title="Bio"
-              />
-
-              <div className="profile-actions">
-                <button className="save-btn" onClick={handleSave}>
-                  Save
-                </button>
-                <button
-                  className="cancel-btn"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <p>
-                <strong>Email:</strong> {seller.email}
-              </p>
-              <p>
-                <strong>Phone:</strong> {seller.phone}
-              </p>
-              <p>
-                <strong>Location:</strong> {seller.location}
-              </p>
-              <p>
-                <strong>Bio:</strong> {seller.bio}
-              </p>
-              <button
-                className="edit-btn"
-                onClick={() => setIsEditing(true)}
-              >
-                Edit Profile
-              </button>
-            </>
-          )}
+          <div className="action-buttons">
+            <button className="cancel-btn" onClick={handleCancel}>
+              <X size={16} /> Cancel
+            </button>
+            <button className="save-btn" onClick={handleSave}>
+              <Save size={16} /> Save Changes
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

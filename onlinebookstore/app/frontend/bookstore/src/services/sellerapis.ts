@@ -125,3 +125,47 @@ export const getAllOrders = async (
 
   return res.json();
 };
+
+
+export const fetchSellerBooks = async (
+  genre: string,
+  seller: string,
+  title: string,
+  sortBy: string,
+  order: string
+) => {
+  const params = new URLSearchParams({
+    genre,
+    seller,
+    title,
+    sortBy,
+    order
+  });
+
+  const token = localStorage.getItem('token');
+
+  const res = await fetch(`http://localhost:5000/seller/mybooks?${params.toString()}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  const contentType = res.headers.get("content-type");
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    // console.log("In sellerapis.ts");
+    console.error("Error response:", errorText);
+    throw new Error(`Failed to fetch books: ${res.status} ${res.statusText}`);
+  }
+
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    const errorText = await res.text(); 
+    console.error("Unexpected non-JSON response:", errorText);
+    throw new Error("Expected JSON but received something else");
+  }
+};

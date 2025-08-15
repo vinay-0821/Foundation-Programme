@@ -24,9 +24,20 @@ export const verifyToken = (req: CustomRequest, res: Response, next: NextFunctio
   }
 };
 
+console.log("It is gone into middleware");
+
 export const isAdmin = (req: CustomRequest, res: Response, next: NextFunction) => {
+  console.log("into the admin");
   if (req.user?.role !== 'admin') {
     return res.status(403).json({ message: 'Forbidden: Admins only' });
+  }
+  next();
+};
+
+export const isSeller = (req: CustomRequest, res: Response, next: NextFunction) => {
+  console.log("into the seller");
+  if (req.user?.role !== 'seller') {
+    return res.status(403).json({ message: 'Forbidden: Sellers only' });
   }
   next();
 };

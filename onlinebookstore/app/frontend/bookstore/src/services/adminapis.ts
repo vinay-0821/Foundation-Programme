@@ -33,7 +33,8 @@ export const fetchBooks = async (
 
   if (contentType && contentType.includes("application/json")) {
     return res.json();
-  } else {
+  } 
+  else {
     const errorText = await res.text(); 
     console.error("Unexpected non-JSON response:", errorText);
     throw new Error("Expected JSON but received something else");

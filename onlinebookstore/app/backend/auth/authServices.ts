@@ -3,6 +3,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 // import { User } from '../types.ts';
 
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+
+
 interface User {
   userid: number;
   password: string;
@@ -67,3 +71,11 @@ export async function insertUser(username: string, email: string, password: stri
   }
 }
 
+export function verifyToken(token: string) {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    return { valid: true, user: decoded };
+  } catch (err) {
+    return { valid: false, message: 'Token is invalid or expired' };
+  }
+}

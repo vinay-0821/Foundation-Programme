@@ -1,32 +1,36 @@
 import express from 'express';
-import { changeAdminPassword, getAdminProfile, getAllBooks, getAllCustomers, getAllSellers, getPendingSellers, getTopBooks, getTopCustomers, getTopSellers, handleSeller, updateAdminProfile } from './adminController.ts';
+import { changeAdminPassword, getAdminProfile, getAllBooks, getAllCustomers, getAllSellers, getBookDetails, getBookReviews, getPendingSellers, getTopBooks, getTopCustomers, getTopSellers, handleSeller, updateAdminProfile } from './adminController.ts';
 import { verifyToken, isAdmin } from '../utils/middleware.ts';
 
 const router = express.Router();
 
 router.use(verifyToken, isAdmin);
 
-router.get('/admin/books', getAllBooks);
+router.get('/books', getAllBooks);
 
-router.get('/admin/customers', getAllCustomers);
+router.get('/customers', getAllCustomers);
 
-router.get('/admin/sellers', getAllSellers);
+router.get('/sellers', getAllSellers);
 
-router.get('/admin/dashboard/topcustomers', getTopCustomers);
+router.get('/dashboard/topcustomers', getTopCustomers);
 
-router.get('/admin/dashboard/topsellers', getTopSellers);
+router.get('/dashboard/topsellers', getTopSellers);
 
-router.get('/admin/dashboard/topbooks', getTopBooks);
+router.get('/dashboard/topbooks', getTopBooks);
 
-router.get('/admin/sellers/pending', getPendingSellers);
+router.get('/sellers/pending', getPendingSellers);
 
-router.post('/admin/sellers/decision/:id', handleSeller);
+router.post('/sellers/decision/:id', handleSeller);
 
-router.get("/admin/profile", getAdminProfile);
+router.get("/profile", getAdminProfile);
 
-router.put("/admin/profile", updateAdminProfile);
+router.put("/profile", updateAdminProfile);
 
-router.put("/admin/password", changeAdminPassword);
+router.put("/password", changeAdminPassword);
+
+router.get("/books/:bookid", getBookDetails);
+
+router.get("/books/:bookid/reviews", getBookReviews);
 
 
 export default router;

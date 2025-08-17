@@ -4,6 +4,7 @@ import AdminNavbar from './AdminNavbar';
 import { fetchBooks } from '../services/adminapis';
 import debounce from 'lodash.debounce';
 import Book from '../components/Book';
+import { useNavigate } from 'react-router-dom';
 
 interface Book {
   bookid: number;
@@ -18,6 +19,7 @@ interface Book {
 }
 
 export default function AdminBooks() {
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [sortBy, setSortBy] = useState<'title' | 'genre' | 'available' | 'sold'>('title');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
@@ -29,6 +31,9 @@ export default function AdminBooks() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // console.log("this is genre filter",genre);
+        // console.log("this is seller filter",seller);
+        // console.log("this is title filter",title);
         const data = await fetchBooks(genre, seller, title, sortBy, order);
         // console.log("This is data: ", data);
         setBooks(data);
@@ -67,6 +72,7 @@ export default function AdminBooks() {
       <AdminNavbar />
       <div className="admin-customers-container">
         <h2>Books Inventory</h2>
+
         <div className="filters">
           <input
             type="text"
@@ -91,47 +97,37 @@ export default function AdminBooks() {
           />
         </div>
 
-        
-
         <table className="customer-table">
           <thead>
             <tr>
-              <th onClick={() => handleSort('title')}>
-                Title {sortBy === 'title' && (order === 'asc' ? '↑' : '↓')}
+              <th onClick={() => handleSort("title")}>
+                Title {sortBy === "title" && (order === "asc" ? "↑" : "↓")}
               </th>
-              <th onClick={() => handleSort('genre')}>
-                Genre {sortBy === 'genre' && (order === 'asc' ? '↑' : '↓')}
+              <th onClick={() => handleSort("genre")}>
+                Genre {sortBy === "genre" && (order === "asc" ? "↑" : "↓")}
               </th>
-              <th onClick={() => handleSort('available')}>
-                Available {sortBy === 'available' && (order === 'asc' ? '↑' : '↓')}
+              <th onClick={() => handleSort("available")}>
+                Available {sortBy === "available" && (order === "asc" ? "↑" : "↓")}
               </th>
-              <th onClick={() => handleSort('sold')}>
-                Sold {sortBy === 'sold' && (order === 'asc' ? '↑' : '↓')}
+              <th onClick={() => handleSort("sold")}>
+                Sold {sortBy === "sold" && (order === "asc" ? "↑" : "↓")}
               </th>
               <th>Seller</th>
             </tr>
           </thead>
           <tbody>
             {books.map((b) => (
-              <React.Fragment key={b.bookid}>
-                <tr
-                  onClick={() =>
-                    setSelectedBook(selectedBook?.bookid === b.bookid ? null : b)
-                  }
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{b.title}</td>
-                  <td>{b.genre}</td>
-                  <td>{b.avaliableCount}</td>
-                  <td>{b.soldCount}</td>
-                  <td>{b.seller_email}</td>
-                </tr>
-                {selectedBook?.bookid === b.bookid && (
-                  <Book
-                    book={selectedBook}
-                    onClose={() => setSelectedBook(null)}/>
-                )}
-              </React.Fragment>
+              <tr
+                key={b.bookid}
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(`/admin/books/${b.bookid}`)}
+              >
+                <td>{b.title}</td>
+                <td>{b.genre}</td>
+                <td>{b.avaliableCount}</td>
+                <td>{b.soldCount}</td>
+                <td>{b.seller_email}</td>
+              </tr>
             ))}
           </tbody>
         </table>

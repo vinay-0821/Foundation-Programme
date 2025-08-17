@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SellerNavbar from "./SellerNavbar";
-import { getSellerStats, getRecentOrders } from "../services/sellerapis";
+import { 
+  getSellerTotalAmount, 
+  getSellerTotalBooks, 
+  getSellerTopBook, 
+  getSellerRating, 
+  getRecentOrders 
+} from "../services/sellerapis";
 import "./css/SellerDashboard.css";
 
 interface SellerStats {
@@ -14,6 +20,7 @@ interface SellerStats {
 interface Order {
   id: number;
   book: string;
+  buyer: string;
   date: string;
   amount: number;
 }
@@ -31,14 +38,29 @@ export default function SellerDashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const statsData = await getSellerStats();
-        const ordersData = await getRecentOrders();
-        setStats(statsData);
-        setRecentOrders(ordersData);
-      } catch (error) {
-        console.error(error);
+        // fetch all stats in parallel
+        const [amountData, booksData, topBookData, ratingData, ordersData] = await Promise.all([
+          getSellerTotalAmount(),
+          getSellerTotalBooks(),
+          getSellerTopBook(),
+          getSellerRating(),
+          getRecentOrders()
+        ]);
+
+        setStats({
+          totalAmount: amountData.totalAmount || 0,
+          totalBooksSold: booksData.totalBooksSold || 0,
+          topBook: topBookData.topBook || "",
+          rating: ratingData.rating || 0
+        });
+
+        setRecentOrders(ordersData || []);
+      } 
+      catch (error) {
+        console.error("Error loading dashboard data:", error);
       }
     }
+
     fetchData();
   }, []);
 
@@ -53,7 +75,7 @@ export default function SellerDashboard() {
             <h3>Total Amount Received</h3>
             <p>₹{stats.totalAmount.toLocaleString()}</p>
           </div>
-          <div className="stat-card green" >
+          <div className="stat-card green">
             <h3>Total Books Sold</h3>
             <p>{stats.totalBooksSold}</p>
           </div>
@@ -77,15 +99,17 @@ export default function SellerDashboard() {
               <tr>
                 <th>Order ID</th>
                 <th>Book</th>
+                <th>Buyer</th>
                 <th>Date</th>
                 <th>Amount</th>
               </tr>
             </thead>
             <tbody>
-              {recentOrders.map((order, idx) => (
-                <tr key={idx}>
+              {recentOrders.map((order) => (
+                <tr key={order.id}>
                   <td>{order.id}</td>
                   <td>{order.book}</td>
+                  <td>{order.buyer}</td>
                   <td>{order.date}</td>
                   <td>{order.amount}</td>
                 </tr>

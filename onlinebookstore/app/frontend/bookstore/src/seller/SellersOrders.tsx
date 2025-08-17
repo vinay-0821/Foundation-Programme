@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from "react";
 import SellerNavbar from "./SellerNavbar";
-import { fetchSellerOrders } from "../services/sellerapis"; // New API call
+import { fetchSellerOrders } from "../services/sellerapis"; 
 import debounce from "lodash.debounce";
 import "./css/SellerBooks.css";
 
 interface SellerOrder {
-  orderid: number;
-  bookTitle: string;
-  buyerEmail: string;
+  id: number;
+  book: string;
+  buyer: string;
   date: string;
   amount: number;
-  status: string;
 }
 
 export default function SellerOrders() {
   const [orders, setOrders] = useState<SellerOrder[]>([]);
-  const [sortBy, setSortBy] = useState<keyof SellerOrder>("date");
+  const [sortBy, setSortBy] = useState<'id' | 'book' | 'buyer' | 'date' | 'amount'>("date");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
-  const [orderIdFilter, setOrderIdFilter] = useState("");
-  const [buyerFilter, setBuyerFilter] = useState("");
-  const [bookFilter, setBookFilter] = useState("");
+  const [orderIdFilter, setOrderIdFilter] = useState('');
+  const [buyerFilter, setBuyerFilter] = useState('');
+  const [bookFilter, setBookFilter] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // console.log("this is genre filter",orderIdFilter);
+        // console.log("this is seller filter",buyerFilter);
+        // console.log("this is title filter",bookFilter);
         const data = await fetchSellerOrders(
           orderIdFilter,
           buyerFilter,
@@ -32,18 +34,21 @@ export default function SellerOrders() {
           sortBy,
           order
         );
+        // console.log("from server", data);
         setOrders(data);
+        // console.log("this is good", orders);
       } catch (err) {
         console.error(err);
       }
     };
 
-    const debouncedFetch = debounce(fetchData, 400);
+    const debouncedFetch = debounce(fetchData, 500);
     debouncedFetch();
+    
     return () => debouncedFetch.cancel();
   }, [orderIdFilter, buyerFilter, bookFilter, sortBy, order]);
 
-  const handleSort = (column: keyof SellerOrder) => {
+  const handleSort = (column: typeof sortBy) => {
     if (sortBy === column) {
       setOrder(order === "asc" ? "desc" : "asc");
     } else {
@@ -56,7 +61,6 @@ export default function SellerOrders() {
     <div className="admin-customers-page">
       <SellerNavbar />
       <div className="admin-customers-container">
-        <h2>Seller Orders</h2>
 
         <div className="filters">
           <input
@@ -66,6 +70,7 @@ export default function SellerOrders() {
             onChange={(e) => setOrderIdFilter(e.target.value)}
             className="search-input"
           />
+
           <input
             type="text"
             placeholder="Filter by Buyer Email"
@@ -73,6 +78,7 @@ export default function SellerOrders() {
             onChange={(e) => setBuyerFilter(e.target.value)}
             className="search-input"
           />
+
           <input
             type="text"
             placeholder="Filter by Book Title"
@@ -85,14 +91,14 @@ export default function SellerOrders() {
         <table className="customer-table">
           <thead>
             <tr>
-              <th onClick={() => handleSort("orderid")}>
-                Order ID {sortBy === "orderid" && (order === "asc" ? "↑" : "↓")}
+              <th onClick={() => handleSort("id")}>
+                Order ID {sortBy === "id" && (order === "asc" ? "↑" : "↓")}
               </th>
-              <th onClick={() => handleSort("bookTitle")}>
-                Book {sortBy === "bookTitle" && (order === "asc" ? "↑" : "↓")}
+              <th onClick={() => handleSort("book")}>
+                Book {sortBy === "book" && (order === "asc" ? "↑" : "↓")}
               </th>
-              <th onClick={() => handleSort("buyerEmail")}>
-                Buyer {sortBy === "buyerEmail" && (order === "asc" ? "↑" : "↓")}
+              <th onClick={() => handleSort("buyer")}>
+                Buyer {sortBy === "buyer" && (order === "asc" ? "↑" : "↓")}
               </th>
               <th onClick={() => handleSort("date")}>
                 Date {sortBy === "date" && (order === "asc" ? "↑" : "↓")}
@@ -104,10 +110,10 @@ export default function SellerOrders() {
           </thead>
           <tbody>
             {orders.map((o) => (
-              <tr key={o.orderid}>
-                <td>{o.orderid}</td>
-                <td>{o.bookTitle}</td>
-                <td>{o.buyerEmail}</td>
+              <tr>
+                <td>{o.id}</td>
+                <td>{o.book}</td>
+                <td>{o.buyer}</td>
                 <td>{o.date}</td>
                 <td>{o.amount}</td>
               </tr>

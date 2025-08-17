@@ -23,6 +23,8 @@ export default function SellerProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       const data = await getSellerProfile();
+      
+      // console.log("This is seller data: ", data);
 
       const formattedDob = (mysqlDate: string | Date): string => {
         const d = new Date(mysqlDate);
@@ -65,7 +67,8 @@ export default function SellerProfile() {
 
   const handleSave = async () => {
     const updatedData = { name, email, phone, address, dob };
-    const res = await updateSellerProfile(updatedData);
+    const res: any = await updateSellerProfile(updatedData);
+    
 
     if (res.message) {
       alert("Profile updated successfully");

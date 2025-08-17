@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { fetchAllBooks, fetchAllCustomers, fetchAllSellers, fetchPendingSellers, fetchTopBooks, fetchTopCustomers, fetchTopSellers, getAdminById, updateAdminDetails, updateAdminPassword, updateSellerStatus } from './adminServices.ts';
+import { fetchAllBooks, fetchAllCustomers, fetchAllSellers, fetchBookDetails, fetchBookReviews, fetchPendingSellers, fetchTopBooks, fetchTopCustomers, fetchTopSellers, getAdminById, updateAdminDetails, updateAdminPassword, updateSellerStatus } from './adminServices.ts';
 import jwt from "jsonwebtoken";
 
 
@@ -10,6 +10,7 @@ function decodeToken(token) {
 }
 
 export const getAllBooks = async (req: Request, res: Response) => {
+  // console.log("this is controller ", req.query);
   try {
     const { genre, seller, title, sortBy, order } = req.query;
 
@@ -166,5 +167,35 @@ export const changeAdminPassword = async (req, res) => {
     res.json({ message: "Password updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+
+export const getBookDetails = async (req: Request, res: Response) => {
+  try {
+    const { bookid } = req.params;
+    const book = await fetchBookDetails(bookid);
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    // console.log(book);
+    res.json(book);
+  } catch (error) {
+    console.error("Error fetching book details:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+export const getBookReviews = async (req: Request, res: Response) => {
+  try {
+    const { bookid } = req.params;
+    const reviews = await fetchBookReviews(bookid);
+    // console.log(reviews);
+    res.json(reviews);
+  } catch (error) {
+    console.error("Error fetching book reviews:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

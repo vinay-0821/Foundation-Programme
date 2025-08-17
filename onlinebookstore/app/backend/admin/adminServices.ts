@@ -21,13 +21,17 @@ export const fetchAllBooks = async (
       IFNULL(SUM(oi.quantity), 0) AS soldCount
     FROM books b
     JOIN Users u ON b.userid = u.userid
-    LEFT JOIN bookgenre bg ON b.bookid = bg.bookgenreid
-    LEFT JOIN genre g ON bg.bookgenreid = g.genreid
+    LEFT JOIN bookgenre bg ON b.bookid = bg.bookid
+    LEFT JOIN genre g ON bg.genreid = g.genreid
     LEFT JOIN order_item oi ON b.bookid = oi.bookid
     WHERE 1 = 1
   `;
 
   const params: any[] = [];
+
+  // console.log("this is genre filter",genre);
+  // console.log("this is seller filter",seller);
+  // console.log("this is title filter",title);
 
   if (genre) {
     baseQuery += ` AND g.name LIKE ?`;
@@ -67,6 +71,7 @@ export const fetchAllBooks = async (
   baseQuery += ` ORDER BY ${sortField} ${sortOrder}`;
 
   const [rows] = await (await db).query(baseQuery, params);
+  // console.log("returned query data: ", rows);
   return rows;
 };
 
@@ -264,4 +269,51 @@ export const updateAdminPassword = async (adminId, password) => {
   const id = adminId.userid;
   const hashedPassword = await bcrypt.hash(password, 10);
   await (await db).query("UPDATE users SET password = ? WHERE userid = ?", [hashedPassword, id]);
+};
+
+
+
+export const fetchBookDetails = async (bookid: string) => {
+  const [rows]: any = await (await db).query(
+    `
+    SELECT 
+      b.bookid, 
+      b.title, 
+      b.author, 
+      b.description,
+      b.price, 
+      b.date_publish,
+      b.stock AS availableCount,
+      u.userid AS seller_id,
+      u.name AS seller_name,
+      u.email AS seller_email,
+      b.imageurl AS images,
+      GROUP_CONCAT(DISTINCT g.name) AS genres,
+      IFNULL(SUM(oi.quantity), 0) AS soldCount
+    FROM books b
+    JOIN users u ON b.userid = u.userid
+    LEFT JOIN bookgenre bg ON b.bookid = bg.bookid
+    LEFT JOIN genre g ON bg.genreid = g.genreid
+    LEFT JOIN order_item oi ON b.bookid = oi.bookid
+    WHERE b.bookid = ?
+    GROUP BY b.bookid, b.title, b.author, b.description, b.price, b.date_publish, b.stock, u.userid, u.name, u.email
+    `,
+    [bookid]
+  );
+
+  return rows[0];
+};
+
+
+
+export const fetchBookReviews = async (bookid: string) => {
+  const [rows]: any = await (await db).query(
+    `SELECT r.reviewid, r.rating, r.review_description, u.name AS userName
+     FROM review r
+     JOIN users u ON r.userid = u.userid
+     WHERE r.bookid = ?`,
+    [bookid]
+  );
+  // console.log(rows);
+  return rows;
 };

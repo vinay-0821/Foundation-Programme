@@ -4,6 +4,7 @@ import { fetchSellerBooks } from '../services/sellerapis';
 import debounce from 'lodash.debounce';
 import Book from '../components/Book';
 import SellerNavbar from './SellerNavbar';
+import { useNavigate } from 'react-router-dom';
 
 interface Book {
   bookid: number;
@@ -18,6 +19,7 @@ interface Book {
 }
 
 export default function SellerBooks() {
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [sortBy, setSortBy] = useState<'title' | 'genre' | 'available' | 'sold'>('title');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
@@ -113,25 +115,17 @@ export default function SellerBooks() {
           </thead>
           <tbody>
             {books.map((b) => (
-              <React.Fragment key={b.bookid}>
-                <tr
-                  onClick={() =>
-                    setSelectedBook(selectedBook?.bookid === b.bookid ? null : b)
-                  }
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{b.title}</td>
-                  <td>{b.genre}</td>
-                  <td>{b.avaliableCount}</td>
-                  <td>{b.soldCount}</td>
-                  <td>{b.seller_email}</td>
-                </tr>
-                {selectedBook?.bookid === b.bookid && (
-                  <Book
-                    book={selectedBook}
-                    onClose={() => setSelectedBook(null)}/>
-                )}
-              </React.Fragment>
+              <tr
+                key={b.bookid}
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(`/seller/mybooks/${b.bookid}`)}
+              >
+                <td>{b.title}</td>
+                <td>{b.genre}</td>
+                <td>{b.avaliableCount}</td>
+                <td>{b.soldCount}</td>
+                <td>{b.seller_email}</td>
+              </tr>
             ))}
           </tbody>
         </table>

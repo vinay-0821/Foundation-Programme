@@ -13,6 +13,11 @@ export const fetchBooks = async (
     order
   });
 
+  // // console.log(params);
+  // console.log("this is genre1 filter",genre);
+  // console.log("this is seller1 filter",seller);
+  // console.log("this is title1 filter",title);
+
   const token = localStorage.getItem('token');
 
   const res = await fetch(`http://localhost:5000/admin/books?${params.toString()}`, {
@@ -274,5 +279,35 @@ export const changeAdminPassword = async (password: string) => {
     },
     body: JSON.stringify({ password }),
   });
+  return res.json();
+};
+
+
+
+export const fetchBookDetails = async (bookid: string) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/admin/books/${bookid}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.json();
+};
+
+export const fetchBookReviews = async (bookid: string) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:5000/admin/books/${bookid}/reviews`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   return res.json();
 };

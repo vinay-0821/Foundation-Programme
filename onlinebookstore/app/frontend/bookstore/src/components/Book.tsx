@@ -38,7 +38,7 @@ export default function Book({ book, onClose }: BookDetailsRowProps) {
             <p><strong>Author:</strong> {book.author || "Unknown"}</p>
             <p><strong>Genre:</strong> {book.genre}</p>
             <p><strong>Seller:</strong> {book.seller_email}</p>
-            <p><strong>Price:</strong> ₹{book.price || "N/A"}</p>
+            <p><strong>Price:</strong> {book.price || "N/A"}</p>
             <p><strong>Stock Left:</strong> {book.avaliableCount}</p>
             <p><strong>Sold:</strong> {book.soldCount}</p>
           </div>
